@@ -40,11 +40,11 @@ cfg.dac.bits          = 7;                 % [A] p.84 Sec. V
 cfg.adc.bits           = 7;                % [A] p.84 Sec. V
 cfg.dac.vfs_diff_pp    = 1.0;               % [A] 1 Vpp,diff DAC full-scale
 cfg.adc.vfs_diff_pp    = 0.5;               % [A] 0.5 Vpp,diff ADC full-scale
-cfg.dac.clip_ratio_dB  = 12.6;              % [A] TX clipping threshold-to-avg ratio (dB)
-cfg.adc.clip_ratio_dB  = 13.4;              % [A] RX clipping threshold-to-avg ratio (dB)
+cfg.dac.clip_ratio_dB  = 20*log10(3.41);            % [A] TX clipping threshold-to-avg ratio (dB) (Changed)
+cfg.adc.clip_ratio_dB  = 20*log10(3.73);          % [A] RX clipping threshold-to-avg ratio (dB) (Changed)
 cfg.use_ctle           = false;             % [A] "CTLE is not considered"
 cfg.vga_normalizes_to_adc_fullscale = true; % [A] VGA scales signal to ADC full-scale
-
+cfg.adc.vga_gain_fixed = 2.0;               % fixed VGA gain for pilots and data (added)
 %% ---- Impairments -----------------------------------------------------
 cfg.jitter.rms_UI      = 0.01;             % [A] 1% UI RMS TX/RX sampling jitter
 cfg.noise.rx_input_rms_V = 1.8e-3;         % [A] 1.8 mV RMS RX input random noise
