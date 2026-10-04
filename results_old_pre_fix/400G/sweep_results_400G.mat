@@ -1,0 +1,573 @@
+# Created by Octave 8.4.0, Sun Sep 27 00:44:18 2026 EEST <root@vm>
+# name: sweep_results
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 9
+# name: data_rate
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 5
+ 0.024564579256360079 0.032431506849315068 0.053057729941291584 0.081439986953685581 0.11470808871493804
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 5
+ 0.14029354207436401 0.18009784735812134 0.26971624266144811 0.3570450097847358 0.4332876712328767
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 5
+ 12.704604627644773 13.88704744608588 17.74462673071594 25.282030915588393 39.782299815853804
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 5
+ 37.625 41.9921875 50.390625 58.7890625 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 5
+ 75.25 83.984375 100.78125 117.578125 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 5
+ 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 5
+ 223.5625 249.51171875 299.4140625 349.31640625 399.21875
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 5
+ 224 250 300 350 400
+
+
+
+
+# name: sampling_rate
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 9
+ 0.018970971950424007 0.028984018264840185 0.043830724070450099 0.06326320939334637 0.087669602087410314 0.11470808871493804 0.14076320939334638 0.16641552511415525 0.18963959556425308
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 9
+ 0.11003913894324853 0.1632583170254403 0.23262230919765164 0.30435420743639918 0.37237769080234834 0.4332876712328767 0.48389432485322897 0.52975538160469671 0.56850293542074359
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 9
+ 11.920709708822493 13.388475581790255 15.873129575551168 20.191261196671334 27.478322580011927 39.782299815853804 57.392819690865622 82.841105697128768 139.71058534942321
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 9
+ 33.59375 40.3125 47.03125 53.75 60.46875 67.1875 73.90625 80.625 87.34375
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 9
+ 67.1875 80.625 94.0625 107.5 120.9375 134.375 147.8125 161.25 174.6875
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 9
+ 7 7 7 7 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 9
+ 199.609375 239.53125 279.453125 319.375 359.296875 399.21875 439.140625 479.0625 518.984375
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 9
+ 67.1875 80.625 94.0625 107.5 120.9375 134.375 147.8125 161.25 174.6875
+
+
+
+
+# name: adc_resolution
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 5
+ 0.17171559034572734 0.12784409654272669 0.11470808871493804 0.11109425962165689 0.11044520547945205
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 5
+ 0.6430332681017612 0.48793542074363994 0.4332876712328767 0.4177886497064579 0.41441291585127205
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 5
+ 52.051812361114592 42.711536614645297 39.782299815853804 39.267678445261339 39.143028813493331
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 5
+ 67.1875 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 5
+ 134.375 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 5
+ 5 6 7 8 9
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 5
+ 399.21875 399.21875 399.21875 399.21875 399.21875
+
+
+# name: x
+# type: double_range
+# base, limit, increment
+5 9 1
+
+
+
+
+# name: mod_order
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 4
+ 0.018268101761252445 0.057318982387475542 0.11470808871493804 0.1824180528375734
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 4
+ 0.034275929549902148 0.17707436399217222 0.4332876712328767 0.74514677103718197
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 4
+ 39.980383225984632 39.76098903384387 39.782299815853804 39.933878438308277
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 4
+ 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 4
+ 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 4
+ 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 4
+ 133.07291666666669 266.14583333333337 399.21875 532.29166666666674
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 4
+ 4 16 64 256
+
+
+
+
+# name: fft_size
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 4
+ 0.11409448818897638 0.11373529411764706 0.11470808871493804 0.113806614532421
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 4
+ 0.4351574803149606 0.43443137254901965 0.4332876712328767 0.4301661779081134
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 4
+ 38.421306710208803 38.545601991880503 39.782299815853804 39.416079345674653
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 4
+ 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 4
+ 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 4
+ 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 4
+ 387.85511363636363 395.37259615384613 399.21875 401.1642752918288
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 4
+ 256 512 1024 2048
+
+
+
+
+# name: channel_loss
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 7
+ 0.059605348988910636 0.071146444879321591 0.11470808871493804 0.16668134377038488 0.21692922374429224 0.25940476190476192 0.29438845401174168
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 7
+ 0.31756360078277884 0.32772994129158511 0.4332876712328767 0.54008806262230924 0.62671232876712324 0.69317025440313107 0.74355185909980426
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 7
+ 17.410604446487156 22.732195920014128 39.782299815853804 80.814709770732321 197.91248421896913 318.6365460462535 458.98599821037681
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 7
+ 67.1875 67.1875 67.1875 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 7
+ 134.375 134.375 134.375 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 7
+ 7 7 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 7
+ 399.21875 399.21875 399.21875 399.21875 399.21875 399.21875 399.21875
+
+
+# name: x
+# type: double_range
+# base, limit, increment
+15 39 4
+
+
+
+
+# name: rx_noise
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.030505544683626873 0.063421395955642529 0.11470808871493804 0.17467547292889757 0.24445368558382258 0.30883561643835616
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.14827788649706458 0.27101761252446183 0.4332876712328767 0.59324853228962815 0.74144814090019573 0.84383561643835614
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 6
+ 15.109799308748325 23.603971605535019 39.782299815853804 66.669486508761182 119.23944678291457 336.03852832657765
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 6
+ 67.1875 67.1875 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 6
+ 134.375 134.375 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 6
+ 7 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 6
+ 399.21875 399.21875 399.21875 399.21875 399.21875 399.21875
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.5 1 1.8 3 5 8
+
+
+
+
+# name: jitter
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.11293542074363992 0.11327299412915851 0.11470808871493804 0.11652315720808872 0.11932811480756686 0.126764514024788
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.4253620352250489 0.42632093933463799 0.4332876712328767 0.44118395303326807 0.45472602739726031 0.48907045009784733
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 6
+ 39.57012723142887 39.480126752393446 39.782299815853804 40.255800952326602 40.96296165526585 42.746924394941352
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 6
+ 67.1875 67.1875 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 6
+ 134.375 134.375 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 6
+ 7 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 6
+ 399.21875 399.21875 399.21875 399.21875 399.21875 399.21875
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.25 0.5 1 1.5 2 3
+
+
+
+
+# name: fext_strength
+# type: scalar struct
+# ndims: 2
+ 1 1
+# length: 8
+# name: ber
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.23162915851272015 0.19943900848010437 0.15456131767775605 0.11470808871493804 0.093997064579256356 0.088621983039791269
+
+
+# name: ser
+# type: matrix
+# rows: 1
+# columns: 6
+ 0.81402152641878667 0.71848336594911943 0.5422407045009785 0.4332876712328767 0.39929549902152639 0.38753424657534247
+
+
+# name: evm
+# type: matrix
+# rows: 1
+# columns: 6
+ 51.149305637997251 50.520957791958416 49.339918860058049 39.782299815853804 27.445872625216055 25.53691760082101
+
+
+# name: req_bw_GHz
+# type: matrix
+# rows: 1
+# columns: 6
+ 67.1875 67.1875 67.1875 67.1875 67.1875 67.1875
+
+
+# name: req_fs_GSs
+# type: matrix
+# rows: 1
+# columns: 6
+ 134.375 134.375 134.375 134.375 134.375 134.375
+
+
+# name: adc_bits
+# type: matrix
+# rows: 1
+# columns: 6
+ 7 7 7 7 7 7
+
+
+# name: achieved_rate_Gbps
+# type: matrix
+# rows: 1
+# columns: 6
+ 399.21875 399.21875 399.21875 399.21875 399.21875 399.21875
+
+
+# name: x
+# type: matrix
+# rows: 1
+# columns: 6
+ 10 16 22 28 34 40
+
+
+
+
+
+
