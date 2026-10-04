@@ -31,7 +31,12 @@ if rms_in == 0, rms_in = eps; end
 beta = vfs_pp/2;
 if cfg.vga_normalizes_to_adc_fullscale
     target_rms = beta / clip_ratio_lin;
-    vga_gain = target_rms / rms_in;
+  %variable gain edited fext cancel 
+    if isfield(adcp, 'vga_gain_fixed') && ~isempty(adcp.vga_gain_fixed)
+        vga_gain = adcp.vga_gain_fixed;
+    else
+        vga_gain = target_rms / rms_in;
+    end
 else
     vga_gain = 1;
 end
