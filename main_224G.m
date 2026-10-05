@@ -19,6 +19,7 @@ cfg = config_224G();
 chan_dir = 'D:\projects\GP\channels\c2c\Channel1\';
 prefix   = 'Asic_Mezz_Retimer_L10';
 cfg.channel.type = 'touchstone';
+cfg.noise.reference = 'adc_input';
 cfg.channel.touchstone = struct( ...
     'thru_file', fullfile(chan_dir, [prefix '_Thru.s4p']), ...
     'fext_file', fullfile(chan_dir, [prefix '_FEXT1.s4p']));

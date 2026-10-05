@@ -31,16 +31,21 @@ if rms_in == 0, rms_in = eps; end
 beta = vfs_pp/2;
 if cfg.vga_normalizes_to_adc_fullscale
     target_rms = beta / clip_ratio_lin;
-  %variable gain edited fext cancel 
     if isfield(adcp, 'vga_gain_fixed') && ~isempty(adcp.vga_gain_fixed)
-        vga_gain = adcp.vga_gain_fixed;
+        vga_gain = adcp.vga_gain_fixed;   % one fixed gain for pilots AND data (like a real AGC)
     else
-        vga_gain = target_rms / rms_in;
+        vga_gain = target_rms / rms_in;   % original behaviour: re-normalised on every block
     end
 else
     vga_gain = 1;
 end
 x = rx_time * vga_gain;
+
+% optional: receiver noise injected at the ADC input (after the VGA),
+% used when cfg.noise.reference = 'adc_input' (set by link_forward_pass)
+if isfield(adcp, 'input_noise_rms_V') && ~isempty(adcp.input_noise_rms_V) && adcp.input_noise_rms_V > 0
+    x = add_noise(x, adcp.input_noise_rms_V, adcp.input_noise_seed);
+end
 
 [x, clip_meta] = clipping_model(x, beta);
 
