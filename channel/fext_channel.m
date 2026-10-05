@@ -21,6 +21,10 @@ function [h, info] = fext_channel(cfg, main_info)
 %   h    - cfg.channel.num_taps x 1 real causal FIR impulse response
 %   info - struct with the ratio law used (info.ratio_dB_fn)
 
+if isfield(cfg.channel, 'type') && strcmp(cfg.channel.type, 'touchstone')
+    [h, info] = touchstone_channel(cfg, 'fext');
+    return;
+end
 fs = cfg.fs;
 Nfft_ir = cfg.channel.ir_fft_len;
 
