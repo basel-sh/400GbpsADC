@@ -1,74 +1,38 @@
-function [H13, H24, H23, H14, chest_diag] = estimate_mimo_channel(cfg, opts)
-%ESTIMATE_MIMO_CHANNEL  Full CHEST procedure: repeats the paper's two-symbol
-%pilot protocol ([FEXT] Sec. IV-A, eqs. 7-12) for cfg.chest.L_moving_avg
-%cycles through the ACTUAL simulated physical link (link_forward_pass.m,
-%same DAC/channel/noise/ADC chain used for data), then moving-averages the
-%raw per-cycle estimates ([FEXT] p.84-85: "the P_k can be moving-averaged
-%... with sufficiently large averaging window L (e.g., L>100)").
-%
-% Inputs:
-%   cfg  - config struct (uses cfg.chest.L_moving_avg)
-%   opts - passed through to link_forward_pass.m for each pilot cycle
-%          (enable_fext, apply_impairments, enable_channel); seed_offset is
-%          set internally per-cycle for reproducible-but-distinct draws
-%
-% Outputs:
-%   H13, H24 - N_used x 1 averaged MAIN channel estimates (lane 1, lane 2)
-%   H23, H14 - N_used x 1 averaged FEXT channel estimates
-%   chest_diag - struct with the raw (pre-average) per-cycle estimates for
-%                convergence plotting (matches [FEXT] Fig. 9 style: |P1_k|,
-%                |P2_k| vs. moving-average window size L)
-
-if nargin < 2, opts = struct(); end
-
-Nused = cfg.ofdm.N_used;
-L = cfg.chest.L_moving_avg;
-
-% [C] Pilot sequence values are not specified beyond "known QAM values with
-% equal real/imaginary magnitude" ([FEXT] p.83, Sec. IV-A). A fixed
-% pseudo-random +/-1 sequence (unit magnitude, known to TX and RX) is used
-% here -- this avoids the very high PAPR of an all-equal-magnitude,
-% all-same-phase pilot tone (which would clip pathologically under the
-% paper's stated clipping ratios) while satisfying "equal magnitude".
-pilot_bits = generate_bits(Nused, cfg.channel.random_phase_seed + 777);
-Sk = 2*double(pilot_bits) - 1; % +/-1, unit magnitude
-
-H13_raw = zeros(Nused, L);
-H23_raw = zeros(Nused, L);
-H14_raw = zeros(Nused, L);
-H24_raw = zeros(Nused, L);
-
-for c = 1:L
-    o = opts;
-    o.seed_offset = 5000 + c;
-
-    % n=1: opposite polarity
-    [Y1_n1, Y2_n1] = link_forward_pass(Sk, -Sk, cfg, o);
-    o.seed_offset = 6000 + c;
-    % n=2: identical
-    [Y1_n2, Y2_n2] = link_forward_pass(Sk, Sk, cfg, o);
-
-    [h13, h23, h14, h24] = channel_estimation(Sk, Y1_n1, Y2_n1, Y1_n2, Y2_n2);
-    H13_raw(:,c) = h13;
-    H23_raw(:,c) = h23;
-    H14_raw(:,c) = h14;
-    H24_raw(:,c) = h24;
+function [H13,H24,H23,H14,chest_diag] = estimate_mimo_channel(cfg,opts)
+% Paper Eqs.7-12, followed by averaging inverse coefficients (Fig.7).
+% Batch pilots to retain channel memory between adjacent symbols.
+if nargin<2, opts=struct(); end
+N=cfg.ofdm.N_used; L=cfg.chest.L_moving_avg;
+if ~isfield(opts,'seed_offset'), opts.seed_offset=0; end
+base_seed=cfg.sim.rng_seed+opts.seed_offset+777;
+if isfield(cfg.chest,'vary_pilots') && ~cfg.chest.vary_pilots
+    b=generate_bits(2*N,base_seed); S=repmat(qam_modulate(b,4),1,L);
+else
+    b=generate_bits(2*N*L,base_seed); S=reshape(qam_modulate(b,4),N,L);
 end
-
-H13 = mean(H13_raw, 2);
-H23 = mean(H23_raw, 2);
-H14 = mean(H14_raw, 2);
-H24 = mean(H24_raw, 2);
-
-chest_diag = struct();
-chest_diag.H13_raw = H13_raw;
-chest_diag.H23_raw = H23_raw;
-chest_diag.H14_raw = H14_raw;
-chest_diag.H24_raw = H24_raw;
-% Cumulative-mean magnitude trace vs. window size L, for the Fig.-9-style
-% convergence plot: cummean_L(k) = mean(H(:, 1:L)) evaluated at each L.
-cs13 = cumsum(H13_raw, 2);
-chest_diag.P_conv_L = 1:L;
-chest_diag.H13_mag_vs_L = abs(cs13 ./ (1:L));
-
+if isfield(cfg.chest,'pilot_scale'),S=S*cfg.chest.pilot_scale;end
+X1=zeros(N,2*L); X2=X1;
+X1(:,1:2:end)=S; X1(:,2:2:end)=S;
+X2(:,1:2:end)=-S; X2(:,2:2:end)=S;
+opts.seed_offset=5000+opts.seed_offset;
+[Y1,Y2]=link_forward_pass(X1,X2,cfg,opts);
+[h13,h23,h14,h24]=channel_estimation(S,Y1(:,1:2:end), ...
+    Y2(:,1:2:end),Y1(:,2:2:end),Y2(:,2:2:end));
+H13=mean(h13,2); H23=mean(h23,2); H14=mean(h14,2); H24=mean(h24,2);
+chest_diag=struct('H13_raw',h13,'H23_raw',h23,'H14_raw',h14,'H24_raw',h24);
+D=h13.*h24-h23.*h14;
+if any(abs(D(:))<1e-12), error('CHEST:singular','Singular training estimate'); end
+p1=h24./D; p2=-h23./D; p3=-h14./D; p4=h13./D;
+if ~isfield(cfg.chest,'average_domain') || strcmp(cfg.chest.average_domain,'coefficients')
+    chest_diag.P1=mean(p1,2); chest_diag.P2=mean(p2,2);
+    chest_diag.P3=mean(p3,2); chest_diag.P4=mean(p4,2);
+else
+    D=H13.*H24-H23.*H14;
+    chest_diag.P1=H24./D; chest_diag.P2=-H23./D;
+    chest_diag.P3=-H14./D; chest_diag.P4=H13./D;
+end
+chest_diag.P_conv_L=1:L;
+chest_diag.H13_mag_vs_L=abs(cumsum(h13,2)./(1:L));
+chest_diag.P1_mag_vs_L=abs(cumsum(p1,2)./(1:L));
+chest_diag.P2_mag_vs_L=abs(cumsum(p2,2)./(1:L));
 end

@@ -1,5 +1,10 @@
 # Validation
 
+> Historical report. The 2026-10-07 MATLAB audit found implementation and
+> configuration issues that invalidate the old claim that the full gap was
+> attributable to the channel. Use `phase1_findings.md` and `results/phase1/`
+> for current measurements and limitations.
+
 This document reports what `main_224G.m` actually produced (a real run, not a hand-picked example), compares
 it against the paper's reported numbers, and states plainly what matches, what is approximate, and what
 cannot be reproduced given the information available. Per the project brief (Part 5/12): **we do not claim

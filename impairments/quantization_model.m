@@ -1,5 +1,5 @@
 function [x_q, meta] = quantization_model(x, bits, full_scale)
-%QUANTIZATION_MODEL  Uniform mid-rise quantizer.
+%QUANTIZATION_MODEL  Uniform signed-code quantizer with a zero output level.
 %
 %   x_q = QUANTIZATION_MODEL(x, bits, full_scale) quantizes x (assumed
 %   already clipped to +/- full_scale) into 2^bits uniform levels spanning

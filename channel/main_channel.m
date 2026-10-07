@@ -29,6 +29,31 @@ if isfield(cfg.channel, 'type') && strcmp(cfg.channel.type, 'touchstone')
 end
 fs = cfg.fs;
 Nfft_ir = cfg.channel.ir_fft_len;
+if isfield(cfg.channel,'main_response_csv') && ~isempty(cfg.channel.main_response_csv)
+    a=readmatrix(cfg.channel.main_response_csv);
+    if fs/2>a(end,1)
+        error('channel:bandwidth','Measured file stops below required Nyquist; extrapolation prohibited');
+    end
+    f=(0:Nfft_ir/2)'*fs/Nfft_ir;
+    magdb=interp1(a(:,1),a(:,4),f,'linear','extrap');
+    if strcmp(cfg.channel.type,'measured_complex')
+        % Interpolate magnitude and unwrapped phase rather than complex Cartesian values.
+        ph=unwrap(angle(a(:,2)+1j*a(:,3)));
+        phase=interp1(a(:,1),ph,f,'linear','extrap');
+        H=10.^(magdb/20).*exp(1j*phase);
+        H(1)=abs(H(1));H(end)=real(H(end));
+        hfull=real(ifft([H;conj(H(end-1:-1:2))]));
+        [~,pk]=max(abs(hfull));
+        % Acquisition removes integer propagation delay, retaining six precursors.
+        shift=max(pk-7,0);hfull=circshift(hfull,-shift);
+        h=hfull(1:cfg.channel.num_taps);
+    else
+        h=minimum_phase_from_mag_db(magdb,Nfft_ir,cfg.channel.num_taps);
+    end
+    info.loss_dB_fn=@(fq)-interp1(a(:,1),a(:,4),fq,'linear','extrap');
+    info.source=cfg.channel.main_response_csv;
+    return;
+end
 
 L_ref = cfg.channel.main_loss_dB_at_f;
 f_ref = cfg.channel.main_loss_at_freq;

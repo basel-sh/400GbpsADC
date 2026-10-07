@@ -1,0 +1,32 @@
+{Subscripted assignment between dissimilar structures.
+
+Error in run_phase1_audit (line 22)
+    audit(i)=summary_row(labels{i},c,r);
+    ^^^^^^^^
+} 
+FEXT_literal_meanabs_preVGA: BER 0.00434344 SER 0.0254834 naive 0.455337 EVM 8.195%
+FEXT_dB_RMS_preVGA: BER 0.0110091 SER 0.0632055 naive 0.465059 EVM 10.010%
+FEXT_meanabs_ADC_noise_assumption: BER 9.65427e-05 SER 0.000577299 naive 0.445341 EVM 5.315%
+ablation_no_thermal_noise: BER 1.63079e-06 SER 9.78474e-06 naive 0.442145 EVM 3.900%
+ablation_no_jitter: BER 0.003909 SER 0.0229863 naive 0.452939 EVM 7.928%
+ablation_near_ideal_quantization: BER 0.00332453 SER 0.0195734 naive 0.451436 EVM 7.620%
+CHEST_L1000: BER 0.00429615 SER 0.0252114 naive 0.45535 EVM 8.177%
+average_H_then_invert_alternative: BER 0.00433953 SER 0.0254618 naive 0.455337 EVM 8.195%
+fixed_QPSK_pilots_alternative: BER 0.00450913 SER 0.0264462 naive 0.458182 EVM 8.404%
+CP64_rate_reduced_diagnostic: BER 0.00433431 SER 0.0254051 naive 0.454982 EVM 8.177%
+400G search 9/81: current best BER 0.000282127
+400G search 18/81: current best BER 0.00018591
+400G search 27/81: current best BER 0.000153294
+400G search 36/81: current best BER 0.000153294
+400G search 45/81: current best BER 0.000153294
+400G search 54/81: current best BER 0.000153294
+400G search 63/81: current best BER 0.000153294
+400G search 72/81: current best BER 0.000153294
+400G search 81/81: current best BER 0.000153294
+confirm_1_seed31: BER 0.00436586 SER 0.0255934 errors 74960/17169600
+confirm_1_seed53: BER 0.00437529 SER 0.0256717 errors 75122/17169600
+confirm_1_seed79: BER 0.00433039 SER 0.0253945 errors 74351/17169600
+confirm_2_seed31: BER 0.000174465 SER 0.000697861 errors 1997/11446400
+confirm_2_seed53: BER 0.000170185 SER 0.000680039 errors 1948/11446400
+confirm_2_seed79: BER 0.000176737 SER 0.000706947 errors 2023/11446400
+PHASE1_AUDIT_COMPLETE

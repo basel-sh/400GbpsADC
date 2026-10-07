@@ -39,6 +39,7 @@ function result = run_224G_test(cfg, test_opts)
 
 if nargin < 2, test_opts = struct(); end
 o = default_opts(test_opts);
+if o.apply_impairments, cfg = calibrate_link_gains(cfg,o); end
 
 if o.use_genie_channel && o.apply_impairments
     error('run_224G_test:unsupportedCombo', ...
@@ -102,7 +103,9 @@ elseif o.use_genie_channel
 else
     chest_opts = struct('enable_fext', o.enable_fext, ...
                          'apply_impairments', o.apply_impairments, ...
-                         'enable_channel', o.enable_channel);
+                         'enable_channel', o.enable_channel, ...
+                         'snr_override_dB', o.snr_override_dB, ...
+                         'seed_offset', o.seed_offset*10 + 1);
     [H13, H24, H23, H14, chest_diag] = estimate_mimo_channel(cfg, chest_opts);
     if ~o.enable_fext
         % No physical FEXT present -> naive/cancel equalizers should both
@@ -112,14 +115,22 @@ else
 end
 
 % --- Data symbols through the link ---
-[Y1, Y2] = link_forward_pass(X1, X2, cfg, link_opts);
+[Y1, Y2, link_diag] = link_forward_pass(X1, X2, cfg, link_opts);
 
 % --- Equalization ---
 [Xhat1, Xhat2] = mimo_fde(Y1, Y2, H13, H23, H14, H24, o.fde_mode);
+if strcmp(o.fde_mode,'cancel') && isfield(chest_diag,'P1')
+    Xhat1 = chest_diag.P1.*Y1 + chest_diag.P2.*Y2;
+    Xhat2 = chest_diag.P3.*Y1 + chest_diag.P4.*Y2;
+end
 
 % --- Also compute the OTHER FDE mode for the headline comparison plot ---
 other_mode = 'naive'; if strcmp(o.fde_mode, 'naive'), other_mode = 'cancel'; end
 [Xhat1_other, Xhat2_other] = mimo_fde(Y1, Y2, H13, H23, H14, H24, other_mode);
+if strcmp(other_mode,'cancel') && isfield(chest_diag,'P1')
+    Xhat1_other = chest_diag.P1.*Y1 + chest_diag.P2.*Y2;
+    Xhat2_other = chest_diag.P3.*Y1 + chest_diag.P4.*Y2;
+end
 
 % --- Demodulate & score ---
 rx_bits1 = qam_demodulate(Xhat1(:), M);
@@ -148,6 +159,12 @@ end
 
 result = struct();
 result.ber = ber;
+result.bit_errors = sum(bits1~=rx_bits1) + sum(bits2~=rx_bits2);
+result.num_bits = 2*nbits_per_lane;
+result.num_qam_symbols = 2*Nused*Nsym;
+result.symbol_errors = round(ser*result.num_qam_symbols);
+result.link_diag = link_diag;
+result.cfg = cfg;
 result.ser = ser;
 result.ser_other_mode = ser_other; % SER of the "other" FDE mode, same data
 result.other_mode = other_mode;

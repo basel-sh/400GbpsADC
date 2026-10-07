@@ -1,0 +1,10 @@
+{
+  "archive_url": "https://www.ieee802.org/3/ck/public/tools/backplane/kareti_3ck_01_1118_backplane.zip",
+  "download_date": "2026-10-07",
+  "files": {
+    "Bch1_3p5_t.s4p": "053cad80cb1272132aa91b79c17b06317116c81c93e6b74c1a5b5f2f049f97be",
+    "Bch2_7_f1.s4p": "6750b5f3d0eeeb4abf0e6dd1cc3850d519c090984ea3b6d9a43043caa8914315",
+    "Bch2_7_t.s4p": "840f8fa29503d5ee9d47347a3895702edc6b772f9b8e83922898a7a3d549df38",
+    "Bch3_14_t.s4p": "614c452d33288fd0a1fbffa4cf1f52cfe9991f664d9c2c42b7d2700effa1df80"
+  }
+}

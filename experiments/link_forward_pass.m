@@ -50,8 +50,8 @@ x2_ser = t2(:);
 diag = struct();
 
 if opts.apply_impairments
-    [d1, dac_meta1] = dac_model(x1_ser, cfg, true);
-    [d2, dac_meta2] = dac_model(x2_ser, cfg, true);
+    [d1, dac_meta1] = dac_model(x1_ser, cfg, true,100000+opts.seed_offset*4+1);
+    [d2, dac_meta2] = dac_model(x2_ser, cfg, true,100000+opts.seed_offset*4+2);
     diag.dac_frac_clipped = [dac_meta1.frac_clipped, dac_meta2.frac_clipped];
 else
     d1 = x1_ser;
@@ -61,9 +61,16 @@ end
 if opts.enable_channel
     [h_main, main_info] = main_channel(cfg);
     [h_fext, ~] = fext_channel(cfg, main_info);
-    [r1, r2] = mimo_channel(d1, d2, h_main, h_fext, opts.enable_fext);
-    r1 = r1(1:numel(d1));
-    r2 = r2(1:numel(d2));
+    if isfield(cfg.channel,'ofdm_diagonal') && cfg.channel.ofdm_diagonal
+        % Idealized per-subcarrier channel used to compare directly with
+        % the paper's Y(k)=H(k)X(k) model. This assumes CP fully removes
+        % inter-block interference; it is not the physical-convolution path.
+        [r1,r2] = mimo_ofdm_diagonal(d1,d2,h_main,h_fext,cfg,opts.enable_fext);
+    else
+        [r1, r2] = mimo_channel(d1, d2, h_main, h_fext, opts.enable_fext);
+        r1 = r1(1:numel(d1));
+        r2 = r2(1:numel(d2));
+    end
 else
     r1 = d1;
     r2 = d2;
@@ -90,9 +97,11 @@ if opts.apply_impairments
     end
     diag.noise_rms_V = noise_rms;
 
-    [a1, adc_meta1] = adc_model(r1, cfg1, true);
-    [a2, adc_meta2] = adc_model(r2, cfg2, true);
+    [a1, adc_meta1] = adc_model(r1, cfg1, true,200000+opts.seed_offset*4+1);
+    [a2, adc_meta2] = adc_model(r2, cfg2, true,200000+opts.seed_offset*4+2);
     diag.adc_frac_clipped = [adc_meta1.frac_clipped, adc_meta2.frac_clipped];
+    diag.dac_scale = [dac_meta1.scale,dac_meta2.scale];
+    diag.vga_gain = [adc_meta1.vga_gain,adc_meta2.vga_gain];
 else
     a1 = r1;
     a2 = r2;
@@ -106,6 +115,22 @@ b2 = reshape(a2, blk_len, Nsym);
 Y1 = ofdm_demodulate(b1, cfg);
 Y2 = ofdm_demodulate(b2, cfg);
 
+end
+
+function [r1,r2] = mimo_ofdm_diagonal(x1,x2,hm,hf,cfg,enable_fext)
+% Apply the channel on each OFDM tone, without inter-block convolution.
+N=cfg.ofdm.N_FFT; C=cfg.ofdm.N_CP; B=N+C;
+if mod(numel(x1),B) || mod(numel(x2),B)
+    error('link_forward_pass:ofdmBlockSize','Waveform length is not an integer number of OFDM blocks');
+end
+H=fft(hm,N); F=fft(hf,N);
+if ~enable_fext, F(:)=0; end
+a=reshape(x1,B,[]); b=reshape(x2,B,[]);
+u=fft(a(C+1:end,:),N,1); v=fft(b(C+1:end,:),N,1);
+y1=real(ifft(H.*u+F.*v,N,1));
+y2=real(ifft(F.*u+H.*v,N,1));
+r1=reshape([y1(end-C+1:end,:);y1],[],1);
+r2=reshape([y2(end-C+1:end,:);y2],[],1);
 end
 
 function s = set_default(s, field, val)

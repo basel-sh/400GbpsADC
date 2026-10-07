@@ -1,0 +1,37 @@
+
+	Sponsored License -- for use in support of a program or activity sponsored by MathWorks.
+	Not for government, commercial or other non-sponsored organizational use.
+
+synthetic channel_output L200 pilot0.218 BER 0.00682322 SER 0.0391468 naive0.4566
+synthetic channel_output L200 pilot0.655 BER 0.00442727 SER 0.0259804 naive0.4557
+synthetic channel_output L200 pilot1.091 BER 0.00434247 SER 0.0254853 naive0.4559
+synthetic channel_output L200 pilot1.528 BER 0.00550554 SER 0.0322759 naive0.4619
+synthetic channel_output L1000 pilot0.218 BER 0.00480137 SER 0.0280841 naive0.456
+synthetic channel_output L1000 pilot0.655 BER 0.00434116 SER 0.0254481 naive0.4559
+synthetic channel_output L1000 pilot1.091 BER 0.0043317 SER 0.0254149 naive0.4559
+synthetic channel_output L1000 pilot1.528 BER 0.00547423 SER 0.0320881 naive0.4618
+synthetic adc_input L200 pilot0.218 BER 0.000170254 SER 0.00101957 naive0.4459
+synthetic adc_input L200 pilot0.655 BER 0.000112524 SER 0.00067319 naive0.4453
+synthetic adc_input L200 pilot1.091 BER 0.000107632 SER 0.000643836 naive0.4451
+synthetic adc_input L200 pilot1.528 BER 0.000251468 SER 0.00150489 naive0.4511
+synthetic adc_input L1000 pilot0.218 BER 0.000119048 SER 0.000712329 naive0.4452
+synthetic adc_input L1000 pilot0.655 BER 0.000108937 SER 0.00065362 naive0.4452
+synthetic adc_input L1000 pilot1.091 BER 0.000105023 SER 0.000630137 naive0.4452
+synthetic adc_input L1000 pilot1.528 BER 0.000248206 SER 0.00148532 naive0.4509
+fig8 channel_output L200 pilot0.218 BER 0.00766145 SER 0.0419687 naive0.4421
+fig8 channel_output L200 pilot0.655 BER 0.00517971 SER 0.0292407 naive0.441
+fig8 channel_output L200 pilot1.091 BER 0.00510665 SER 0.0288219 naive0.4409
+fig8 channel_output L200 pilot1.528 BER 0.00588356 SER 0.0333366 naive0.4469
+fig8 channel_output L1000 pilot0.218 BER 0.00646543 SER 0.0356204 naive0.4414
+fig8 channel_output L1000 pilot0.655 BER 0.00508676 SER 0.0287495 naive0.441
+fig8 channel_output L1000 pilot1.091 BER 0.00506849 SER 0.0286869 naive0.441
+fig8 channel_output L1000 pilot1.528 BER 0.00587052 SER 0.0332857 naive0.4468
+fig8 adc_input L200 pilot0.218 BER 0.00110241 SER 0.00646575 naive0.433
+fig8 adc_input L200 pilot0.655 BER 0.000782453 SER 0.00461057 naive0.4327
+fig8 adc_input L200 pilot1.091 BER 0.000768102 SER 0.00453425 naive0.4325
+fig8 adc_input L200 pilot1.528 BER 0.00101892 SER 0.00602153 naive0.438
+fig8 adc_input L1000 pilot0.218 BER 0.00082257 SER 0.00486106 naive0.4324
+fig8 adc_input L1000 pilot0.655 BER 0.000763536 SER 0.00450294 naive0.4326
+fig8 adc_input L1000 pilot1.091 BER 0.000765819 SER 0.0045225 naive0.4326
+fig8 adc_input L1000 pilot1.528 BER 0.00101337 SER 0.00597456 naive0.4379
+CONVENTIONS_COMPLETE bestBER 0.000105023

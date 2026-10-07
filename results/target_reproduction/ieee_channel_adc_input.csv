@@ -1,0 +1,4 @@
+seed,ber,ser,bit_errors,num_bits,symbol_errors,num_symbols,thru,fext,noise_location,mode
+521,0.00290146538067282,0.0164294450656975,99634,34339200,94029,5723200,IEEE Bch2_7 complex,Fig8 magnitude minphase,ADC input,diagonal
+547,0.00289406858633864,0.0163730081073525,99380,34339200,93706,5723200,IEEE Bch2_7 complex,Fig8 magnitude minphase,ADC input,diagonal
+571,0.00290632862734135,0.0164530332681018,99801,34339200,94164,5723200,IEEE Bch2_7 complex,Fig8 magnitude minphase,ADC input,diagonal

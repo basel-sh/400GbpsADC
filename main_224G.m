@@ -1,6 +1,6 @@
 %MAIN_224G  Single entry point: runs the complete 224 Gb/s MIMO-OFDM
 %baseline validation suite (TESTs 1-6), saves all figures under
-%results/224G/figures/, and prints a summary comparing measured results to
+%results/pulled_friend_exact/figures/, and prints a summary comparing measured results to
 %the paper's reported values.
 %
 % Usage (from the project root, i.e. this file's folder):
@@ -16,13 +16,17 @@ fprintf('=== 224 Gb/s MIMO-OFDM baseline: full validation suite ===\n\n');
 
 cfg = config_224G();
 
-chan_dir = 'D:\projects\GP\channels\c2c\Channel1\';
+chan_dir = fullfile(proj_root, 'channel', 'data', 'ieee_8023ck_c2c', 'Channel1');
 prefix   = 'Asic_Mezz_Retimer_L10';
 cfg.channel.type = 'touchstone';
 cfg.noise.reference = 'adc_input';
 cfg.channel.touchstone = struct( ...
     'thru_file', fullfile(chan_dir, [prefix '_Thru.s4p']), ...
     'fext_file', fullfile(chan_dir, [prefix '_FEXT1.s4p']));
+
+% Keep this pulled-code reproduction separate from historical synthetic runs.
+cfg.results_dir = fullfile(proj_root, 'results', 'pulled_friend_exact');
+cfg.fig_dir = fullfile(cfg.results_dir, 'figures');
 
 if ~exist(cfg.results_dir, 'dir'), mkdir(cfg.results_dir); end
 if ~exist(cfg.fig_dir, 'dir'), mkdir(cfg.fig_dir); end
@@ -44,15 +48,12 @@ fprintf('\nTotal simulation time: %.1f s\n', elapsed);
 results = struct('test1', res1, 'test234', res234, 'test56', res56, 'cfg', cfg);
 save(fullfile(cfg.results_dir, 'results_224G.mat'), 'results');
 
-fprintf('\n=== SUMMARY (see docs/validation.md for full discussion) ===\n');
+fprintf('\n=== SUMMARY (see docs/friend_channel_reproduction.md for run details) ===\n');
 fprintf('%-45s %-15s %-15s\n', 'Metric', 'This model', 'Paper [FEXT]');
 fprintf('%-45s %-15.3e %-15s\n', 'SER with FEXT cancellation', res56.test6.ser, '1.4e-5');
 fprintf('%-45s %-15.3e %-15s\n', 'SER without FEXT cancellation', res56.test6.ser_other_mode, '4e-1');
 fprintf('%-45s %-15.3e %-15s\n', 'Pre-FEC BER with FEXT cancellation', res56.test6.ber, '2.4e-6 (gray-coded)');
 fprintf('\nAll figures saved under: %s\n', cfg.fig_dir);
 fprintf('Results struct saved to: %s\n', fullfile(cfg.results_dir, 'results_224G.mat'));
-fprintf('\nIMPORTANT: the physical channel used here is a parameterized SYNTHETIC\n');
-fprintf('model calibrated to the paper''s two numeric anchor points (23 dB @ 40 GHz\n');
-fprintf('main-channel loss, ~28 dB main-to-FEXT ratio @ 3.7 GHz) -- NOT the exact\n');
-fprintf('measured channel used in the paper (unavailable in the text). See\n');
-fprintf('docs/validation.md and docs/open_questions.md.\n');
+fprintf('\nPhysical channel: IEEE 802.3ck Channel1 Asic_Mezz_Retimer_L10 THRU + FEXT1.\n');
+fprintf('This reproduces the channel paths specified in the pulled friend script.\n');

@@ -1,0 +1,2 @@
+ber,ser_with_cancel,ser_without_cancel,bits,symbols,rate_Gbps,noise_reference,channel
+0.00229191128506197,0.0133003913894325,0.0162529354207436,12264000,2044000,223.5625,adc_input,IEEE Bch2_7 THRU + Bch2_7 FEXT1 (local proxy)

@@ -1,4 +1,4 @@
-function [dac_out, meta] = dac_model(tx_time, cfg, apply_jitter)
+function [dac_out, meta] = dac_model(tx_time, cfg, apply_jitter, jitter_seed)
 %DAC_MODEL  Behavioral DAC: RMS normalization to the paper's clipping ratio,
 %hard clipping, sampling jitter, and quantization to cfg.dac.bits.
 %
@@ -19,29 +19,35 @@ function [dac_out, meta] = dac_model(tx_time, cfg, apply_jitter)
 if nargin < 3
     apply_jitter = true;
 end
+if nargin < 4, jitter_seed = 1000; end
 
 dacp = cfg.dac;
 bits = dacp.bits;
 vfs_pp = dacp.vfs_diff_pp;
-clip_ratio_lin = 10^(dacp.clip_ratio_dB/20); % [DSE] R_clip = beta/A_RMS
+clip_ratio_lin = effective_clip_ratio(dacp);
 
 rms_in = sqrt(mean(tx_time(:).^2));
 if rms_in == 0, rms_in = eps; end
 beta = vfs_pp/2;
 target_rms = beta / clip_ratio_lin;
 scale = target_rms / rms_in;
+if isfield(dacp,'scale_fixed') && ~isempty(dacp.scale_fixed)
+    scale = dacp.scale_fixed;
+end
 x = tx_time * scale;
 
 [x, clip_meta] = clipping_model(x, beta);
 
 if apply_jitter && cfg.jitter.rms_UI > 0
-    x = jitter_model(x, cfg.fs, cfg.jitter.rms_UI, 1000);
+    method='spline';if isfield(cfg.jitter,'method'),method=cfg.jitter.method;end
+    x = jitter_model(x, cfg.fs, cfg.jitter.rms_UI, jitter_seed,method);
 end
 
 [dac_out, q_meta] = quantization_model(x, bits, beta);
 
 meta = struct();
 meta.rms_in = rms_in;
+meta.scale = scale;
 meta.clip_threshold_V = beta;
 meta.lsb_V = q_meta.lsb;
 meta.num_clipped = clip_meta.num_clipped;

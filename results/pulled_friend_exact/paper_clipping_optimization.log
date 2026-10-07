@@ -1,0 +1,8 @@
+paper_clipping_confirmation seed31 L1000 ADCclip13.4: BER 1.32210418e-05 SER 7.9326251e-05 no-cancel 0.000108505731
+paper_clipping_confirmation seed53 L1000 ADCclip13.4: BER 1.15028888e-05 SER 6.9017333e-05 no-cancel 0.000104661728
+paper_clipping_confirmation seed79 L1000 ADCclip13.4: BER 1.24347684e-05 SER 7.46086106e-05 no-cancel 9.78473581e-05
+POOLED confirmation: BER 1.2386233e-05 SER 7.43173982e-05 over 103017600 bits / 17169600 QAM symbols
+paper_clipping_confirmation seed31 L1000 ADCclip13.4: BER 1.32210418e-05 SER 7.9326251e-05 no-cancel 0.000108505731
+paper_clipping_confirmation seed53 L1000 ADCclip13.4: BER 1.15028888e-05 SER 6.9017333e-05 no-cancel 0.000104661728
+paper_clipping_confirmation seed79 L1000 ADCclip13.4: BER 1.24347684e-05 SER 7.46086106e-05 no-cancel 9.78473581e-05
+POOLED confirmation: BER 1.2386233e-05 SER 7.43173982e-05 over 103017600 bits / 17169600 QAM symbols

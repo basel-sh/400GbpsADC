@@ -1,0 +1,2 @@
+seed,qam,L,rate_Gbps,fs_GSs,bits,jitter_method,dac_clip_dB,adc_clip_dB,ber,ber_lane1,ber_lane2,ser,bit_errors,num_bits,symbol_errors,num_symbols
+401,256,1000,400,100.978473581213,9,spline,12.6,13.4,7.46086105675147e-06,1.49217221135029e-05,0,5.96868884540117e-05,61,8176000,61,1022000

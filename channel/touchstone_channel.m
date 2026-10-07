@@ -169,6 +169,7 @@ end
 S = zeros(nblk, 4, 4);
 for r = 1:4
     for c = 1:4
+        % Touchstone v1 four-port data is row-major (unlike two-port data).
         S(:, r, c) = Z(:, (r-1)*4 + c);
     end
 end

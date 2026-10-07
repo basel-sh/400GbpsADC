@@ -1,4 +1,97 @@
-# Presentation Outline -- Supervisor Meeting (02/10/2026)
+# Doctor meeting: 400 Gb/s/lane modeling results (8 October 2026)
+
+Use the current [verification brief](docs/400G_verification_for_doctor.md)
+and CSV evidence in `results/400G_verification/`. This is a phase-one
+behavioral feasibility discussion. No PDK or transistor implementation has
+been verified. DAC/ADC clipping remains **12.6/13.4 dB** throughout.
+
+## Slide 1 — What we have demonstrated
+
+- 224G framing works at 223.56 Gb/s/lane; the paper's exact error result and
+  channel/noise conditions are not reproduced.
+- The current model supports a conditional 400G 64-QAM candidate.
+- Today's decision: approve checking the candidate hardware requirements
+  against real channel data and available CMOS circuit/process data.
+
+Say: "This is a verified operating point inside our behavioral model.
+Our next task is to establish whether actual hardware can supply its budgets."
+
+## Slide 2 — Two ways to reach the rate
+
+`R = 511 * log2(QAM) * Fs / 1032`
+
+| Architecture | Sampling rate | Nyquist coverage | Main trade-off |
+|---|---:|---:|---|
+| 64-QAM | 134.638 GS/s | 67.319 GHz | More analog bandwidth, wider constellation spacing |
+| 256-QAM | 100.978 GS/s | 50.489 GHz | Less bandwidth, tighter accuracy requirement |
+
+400G here is per lane, gross before pilot scheduling and FEC. It is not
+aggregate across two lanes or a verified 400G payload rate.
+
+## Slide 3 — What the new simulations actually show
+
+Insert `results/400G_verification/figures/400G_upgrade_bottlenecks.png`
+and `400G_independent_confirmation.png`.
+
+- Simply raising speed with original scalar budgets: BER approximately 0.093.
+- Changing only converter resolution to 9 bits: still approximately 0.090.
+- 64-QAM upgraded combination, ideal 8-bit converters: **zero observed errors
+  over 103 million bits**, nominal 95% BER upper bound **2.91e-8**.
+- Standard 256-QAM, ideal 9-bit converters: BER **3.52e-6**, SER **2.82e-5**;
+  misses paper comparison targets **2.4e-6 / 1.4e-5**.
+- Lower noise/jitter, more averaging and CP screening did not establish a
+  reliable 256-QAM pass. Screening seeds alone can be misleading.
+
+Say: "Zero observed errors is a finite-test result, not zero true BER.
+The statistical bound does not cover uncertainty in the hardware model."
+
+## Slide 4 — The exact 64-QAM requirements to discuss
+
+| Block/setting | Tested assumption |
+|---|---|
+| ADC/DAC | Ideal 8-bit codes, 134.638 GS/s |
+| Channel | Synthetic low-loss response, 5 dB loss at 40 GHz |
+| AFE input noise | 0.3 mV RMS, before VGA |
+| Clock/converter jitter | 22.282 fs RMS per TX/RX process |
+| TX power loading | -3.5 to 0 dB across data tones |
+| Clipping | Paper DAC/ADC 12.6/13.4 dB |
+| Framing/training | FFT 1024, CP8, L200 |
+
+These are a tested combination, not proven minimum specifications.
+The channel needs reach/material/package work; it does not improve merely
+by shrinking transistors. Actual converter ENOB/SNDR must replace ideal bits.
+
+## Slide 5 — What smaller CMOS can and cannot establish
+
+- Imec's [2026 5-nm ADC result](https://www.imec-int.com/en/press/imec-unveils-7-bit-175gss-massively-time-interleaved-slope-adc-pairing-record-small-footprint)
+  demonstrates 175 GS/s with nominal 7-bit conversion. Its speed is relevant;
+  it does not qualify our ideal 8-bit accuracy, swing, jitter or full bandwidth.
+- Obtain ADC/DAC accuracy curves, AFE noise/bandwidth, absolute clock jitter,
+  interleaving mismatch and PVT from the intended PDK/IP or circuit simulations.
+- Feed those characteristics into MATLAB and repeat counted BER verification.
+- Parallel DSP can reduce the digital clock requirement: Fs/128 = 1.052 GHz
+  for the 64-QAM candidate. Timing, area and power still need actual synthesis.
+
+Say: "We cannot approve a technology node by name. We compare its measured
+or simulated circuit capabilities with these system requirements."
+
+## Slide 6 — Decisions and next deliverables
+
+1. Agree on per-lane rate, gross versus payload, BER target and FEC.
+2. Prioritize 64-QAM for circuit feasibility; retain 256-QAM as research.
+3. Approve obtaining a low-loss THRU/FEXT model over at least 67.319 GHz.
+4. Obtain candidate-process analog/clock data and digital cell libraries.
+5. Repeat realistic converter/AFE/mismatch and fixed-point DSP simulations;
+   report BER margins together with power, area and latency.
+
+Suggested closing statement: **"We verified conditional 400G behavior with
+fixed paper clipping. The next phase is to verify the required channel,
+converter and clock budgets in a realizable implementation."**
+
+<details>
+<summary>Historical October 2 outline — superseded; do not use its numerical results</summary>
+
+# Historical Presentation Outline -- Supervisor Meeting (02/10/2026)
 
 ## 1. Problem
 - Wireline SerDes data rates have doubled roughly every 4 years (10G -> 112G); next target is >200 Gb/s/lane.
@@ -74,3 +167,5 @@
    once PDK data is available.
 5. Model the FFT-size/CP-length trade-off more faithfully (scale channel tap count with N_FFT) to better
    reproduce [DSE]'s finding that larger FFT sizes substantially improve BER.
+
+</details>

@@ -1,0 +1,4 @@
+seed,ber,ser,bit_errors,num_bits,num_symbols,mode
+521,0.00434395676078651,0.0254811993290467,149168,34339200,5723200,"paper diagonal channel, synthetic response"
+547,0.00435723604510297,0.0255479452054795,149624,34339200,5723200,"paper diagonal channel, synthetic response"
+571,0.00435144091883329,0.0255257548224769,149425,34339200,5723200,"paper diagonal channel, synthetic response"

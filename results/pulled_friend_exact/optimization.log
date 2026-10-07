@@ -1,0 +1,19 @@
+baseline seed3 L200 ADCclip13.4: BER 1.23124592e-05 SER 7.38747554e-05 no-cancel 0.000108610568
+THRU loss at 40GHz 22.4099 dB; retained energy main 99.9945% FEXT 83.9153%
+FIR main/FEXT ratio: 60.0324 dB at 3.7GHz; 37.2009 dB at 37GHz
+paper_settings_L500 seed3 L500 ADCclip13.4: BER 1.22309198e-05 SER 7.33855186e-05 no-cancel 0.00010665362
+paper_settings_L1000 seed3 L1000 ADCclip13.4: BER 1.19863014e-05 SER 7.19178082e-05 no-cancel 0.00010665362
+alternative_ADCclip12.0 seed3 L1000 ADCclip12.0: BER 1.44324853e-05 SER 8.65949119e-05 no-cancel 0.000108610568
+alternative_ADCclip12.5 seed3 L1000 ADCclip12.5: BER 9.13242009e-06 SER 5.47945205e-05 no-cancel 7.4853229e-05
+alternative_ADCclip13.0 seed3 L1000 ADCclip13.0: BER 9.13242009e-06 SER 5.47945205e-05 no-cancel 8.12133072e-05
+best_independent_confirmation seed31 L1000 ADCclip12.5: BER 9.2314323e-06 SER 5.53885938e-05 no-cancel 7.28613363e-05
+{Subscripted assignment between dissimilar structures.
+
+Error in run_friend_channel_optimization (line 36)
+    confirm(end+1)=record('best_independent_confirmation',c,rr,seed);
+    ^^^^^^^^^^^^^^
+} 
+best_independent_confirmation seed31 L1000 ADCclip12.5: BER 9.2314323e-06 SER 5.53885938e-05 no-cancel 7.28613363e-05
+best_independent_confirmation seed53 L1000 ADCclip12.5: BER 8.38691641e-06 SER 5.03214985e-05 no-cancel 6.83184233e-05
+best_independent_confirmation seed79 L1000 ADCclip12.5: BER 8.85285621e-06 SER 5.31171373e-05 no-cancel 7.28613363e-05
+POOLED confirmation: BER 8.82373497e-06 SER 5.29424098e-05 over 103017600 bits / 17169600 QAM symbols

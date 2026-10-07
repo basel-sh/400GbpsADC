@@ -1,4 +1,4 @@
-function x_jittered = jitter_model(x, fs, rms_UI, seed_offset)
+function x_jittered = jitter_model(x, fs, rms_UI, seed_offset, method)
 %JITTER_MODEL  Apply random sampling-instant jitter to a time-domain signal.
 %
 % [A] The paper specifies "1% UI root-mean-square (RMS) TX/RX sampling
@@ -25,6 +25,7 @@ function x_jittered = jitter_model(x, fs, rms_UI, seed_offset)
 if nargin < 4
     seed_offset = 0;
 end
+if nargin < 5, method='spline'; end
 if rms_UI <= 0
     x_jittered = x;
     return;
@@ -46,7 +47,16 @@ for m = 1:M
     % Cubic spline interpolation of the (band-limited-ish) OFDM waveform
     % at the jittered sample instants. Edge samples are held (extrap 'nearest'
     % analogue) to avoid edge artifacts on the short block.
-    x_jittered(:, m) = interp1(t_nominal, x(:, m), t_jit, 'spline', 'extrap');
+    if strcmp(method,'spectral_linear')
+        % First-order bandlimited timing perturbation, x(t+dt)=x+dt*x'.
+        % Nyquist derivative is set to zero for a real sampled waveform.
+        k=[0:floor((N-1)/2), -floor(N/2):-1]';
+        if mod(N,2)==0,k(N/2+1)=0;end
+        dx=real(ifft(fft(x(:,m)).*(2j*pi*k/N)));
+        x_jittered(:,m)=x(:,m)+dt.*dx;
+    else
+        x_jittered(:, m) = interp1(t_nominal, x(:, m), t_jit, 'spline', 'extrap');
+    end
 end
 
 end

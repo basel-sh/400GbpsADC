@@ -1,4 +1,4 @@
-function [adc_out, meta] = adc_model(rx_time, cfg, apply_jitter)
+function [adc_out, meta] = adc_model(rx_time, cfg, apply_jitter, jitter_seed)
 %ADC_MODEL  Behavioral RX front-end + ADC: VGA gain (so the ADC uses its
 %full input range, per [FEXT] p.84 Sec. V: "CTLE is not considered and the
 %RX VGA amplifies the input signal so that the ADC uses its input
@@ -19,11 +19,12 @@ function [adc_out, meta] = adc_model(rx_time, cfg, apply_jitter)
 if nargin < 3
     apply_jitter = true;
 end
+if nargin < 4, jitter_seed = 2000; end
 
 adcp = cfg.adc;
 bits = adcp.bits;
 vfs_pp = adcp.vfs_diff_pp;
-clip_ratio_lin = 10^(adcp.clip_ratio_dB/20);
+clip_ratio_lin = effective_clip_ratio(adcp);
 
 rms_in = sqrt(mean(rx_time(:).^2));
 if rms_in == 0, rms_in = eps; end
@@ -50,7 +51,8 @@ end
 [x, clip_meta] = clipping_model(x, beta);
 
 if apply_jitter && cfg.jitter.rms_UI > 0
-    x = jitter_model(x, cfg.fs, cfg.jitter.rms_UI, 2000);
+    method='spline';if isfield(cfg.jitter,'method'),method=cfg.jitter.method;end
+    x = jitter_model(x, cfg.fs, cfg.jitter.rms_UI, jitter_seed,method);
 end
 
 [adc_out, q_meta] = quantization_model(x, bits, beta);

@@ -1,0 +1,542 @@
+PAGE 1
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+81
+Far-End Crosstalk Cancellation With MIMO OFDM
+for >200 Gb/s ADC-Based Serial Links
+Gain Kim
+, Member, IEEE
+Abstract—This brief presents an area- and power-efﬁcient far-
+end crosstalk (FEXT) cancellation scheme with multi-input multi-
+output
+(MIMO)
+orthogonal
+frequency-division
+multiplexing
+(OFDM) for an analog-to-digital converter (ADC)-based ultra-
+high-speed serial links. The frequency-domain per-sub-channel
+equalization nature of OFDM allows a simple FEXT cancella-
+tion with MIMO equalizer in its digital signal processor (DSP),
+unlike time-domain pulse amplitude modulation (PAM) that
+requires heavy parallel cross-lane ﬁltering for FEXT cancellation.
+With architectural modeling of a 2 × 2 MIMO OFDM wire-
+line transceiver (TRX), simulation results show that the main
+and FEXT channels’ frequency responses are properly estimated
+using pilot symbols. With the estimated channel responses, simu-
+lation results also show that the FEXT can be effectively canceled
+out with per-sub-channel MIMO equalization, achieving an over-
+all symbol error rate (SER) of 1.4 × 10−5 at 224 Gb/s/lane for a
+channel having 23 dB loss at 40 GHz, while the SER is 4 × 10−1
+without FEXT cancellation.
+Index Terms—Serial link, wireline transceiver, ADC-based
+serial link, orthogonal frequency division multiplexing, OFDM,
+wireline communications, wireline receiver, far-end crosstalk,
+FEXT.
+I. INTRODUCTION
+T
+HE INCREASING demands for ever-higher communi-
+cation bandwidth for cloud computing platforms and
+data centers have been leading the per-lane data rate (DR)
+increase of wireline transceivers (TRX) from 28 Gb/s [1] to
+112 Gb/s [2], [3] for the last decade. While non-return-to-
+zero (NRZ) was the dominating modulation for DR < 56 Gb/s
+with analog building blocks for its TRX, 4-level pulse ampli-
+tude modulation (PAM-4) with a high-speed analog-to-digital
+converter (ADC) and digital signal processor (DSP)-based
+receiver (RX) became popular for DR ≥56 Gb/s [4], [5], [6],
+[7], [8]. Digital-to-analog converter (DAC)-based transmitter
+(TX) is widely used for DR ≥112 Gb/s together with the
+ADC-based RX providing high ﬂexibility and strong equal-
+ization capabilities [9], [10]. While the PAM-4 TRX with a
+DAC-based TX and ADC-based RX has kept pushing the per-
+lane communication speed, its extension to > 200 Gb/s for
+Manuscript received 20 April 2022; revised 10 August 2022; accepted 6
+September 2022. Date of publication 8 September 2022; date of current ver-
+sion 22 December 2022. This work was supported by the DGIST Start-Up
+Fund Program of the Ministry of Science and ICT under Grant 2022010322.
+This brief was recommended by Associate Editor K. Waheed.
+The author is with the Department of Electrical Engineering and
+Computer Science, Daegu Gyeongbuk Institute of Science and Technology,
+Daegu 42988, South Korea (e-mail: gain.kim@dgist.ac.kr).
+Color versions of one or more ﬁgures in this article are available at
+https://doi.org/10.1109/TCSII.2022.3205246.
+Digital Object Identiﬁer 10.1109/TCSII.2022.3205246
+long-reach channels (> 35 dB of loss at Nyquist) is unclear.
+Moreover, handling the increasing far-end crosstalk (FEXT)
+typically relies on keeping a sufﬁcient link margin, instead of
+canceling the FEXT [2].
+For single-ended dense interconnects at a relatively low
+speed (7 Gb/s/lane), analog cross-equalizers including both
+continuous-time and decision-feedback equalizers between
+lanes are introduced in [11] for FEXT cancellation. However,
+analog cross-equalizers have limitations for being employed
+for DR > 200 Gb/s due to the bandwidth requirements and
+stringent timing constraints, and ADC-based PAM-4 cross
+equalizers will be excessively heavy in terms of power and area
+due to the required parallel long-tap ﬁnite impulse response
+(FIR) ﬁlters.
+Employing
+orthogonal
+frequency-division
+multiplexing
+(OFDM) which is a frequency-domain modulation, time-
+domain convolution (ﬁltering) operation reduces to element-
+wise multiplication for the equalization process, simplifying
+the RX equalizer DSP [12]. Demonstrated with a 56 Gb/s
+silicon prototype [12], extending OFDM for > 100 Gb/s
+serial links has been studied in [13], [14]. Beneﬁting from
+the per-sub-channel frequency-domain equalization nature
+of OFDM, this brief presents an area- and power-efﬁcient
+FEXT cancellation for ultra-high-speed ADC-based serial
+links with multi-input multi-output (MIMO) OFDM RX
+equalizer.
+The rest of this brief is organized as follows. The overall
+architecture of a wireline OFDM TRX is brieﬂy reviewed in
+Section II. Section III explains the FEXT cancellation scheme
+with a 2 × 2 MIMO OFDM and the MIMO equalizer coefﬁ-
+cient calculation. Section IV explains the 2×2 MIMO channel
+estimation ﬂow. Simulation results are shown in Section V, and
+Section VI concludes this brief.
+II. OFDM WIRELINE TRANSCEIVER AND
+FREQUENCY-DOMAIN EQUALIZATION
+A. Overall Data-Path
+Fig. 1 shows the overall block diagram of a wireline
+TRX with OFDM modulation. On the TX side, data in
+the binary bitstream with forward error correction (FEC)
+encoding are mapped to the frequency-domain quadrature
+amplitude modulation (QAM) symbols. Optionally, bit-loading
+and/or power-loading can be applied to the frequency-domain
+QAM symbols before the symbols are transformed to the
+time-domain OFDM symbol by an inverse discrete Fourier
+transform (IDFT) engine. In the time domain, cyclic preﬁx
+1549-7747 c⃝2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See https://www.ieee.org/publications/rights/index.html for more information.
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+PAGE 2
+82
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+Fig. 1.
+Overall block diagram of the data-path of an OFDM TRX for a wireline serial link.
+Fig. 2.
+Clipping of the time-domain OFDM signal on the TX: weak clipping
+does not cause a lot of distortion but the overall signal level is low, and
+aggressive clipping increases the overall signal power at the cost of increased
+distortion.
+(CP) is added to the OFDM symbol by simply copying the
+last Ncp samples in an OFDM symbol to the beginning of the
+OFDM symbol to protect the OFDM symbol from the inter-
+symbol interference (ISI) [15]. The CP-added OFDM symbol
+is then serialized for being transmitted toward the channel by
+a DAC. Clipping can be applied at this stage to trade off the
+distortion and the signal-to-noise ratio (SNR) [13], [16], as
+shown in Fig. 2.
+On the RX side, the overall signal processing is the
+reverse operations of the TX-side signal processing. The ana-
+log front-end (AFE) provides high-frequency peaking with
+continuous-time linear equalizer (CTLE) for partial channel
+loss compensation and the overall signal gain with variable
+gain ampliﬁer (VGA) in such a way that the overall sig-
+nal amplitudes ﬁt well with the ADC analog input dynamic
+range. Similar to the DAC clipping, the incoming OFDM
+signal is clipped at the ADC with a proper clipping ratio
+to balance the overall signal SNR and the clipping-induced
+distortion [13], [16]. The data sampled by a time-interleaved
+ADC is aligned by the retimer to be synchronized to the DSP
+clock, and the CP is removed from every OFDM symbol. The
+CP-removed time-domain OFDM symbol is transformed to
+Fig. 3.
+Frequency-dependent amplitude attenuation and angular rotation of
+QAM symbols due to the channel.
+Fig. 4.
+Frequency-domain equalization by per-sub-channel amplitude
+adjustment and angular rotation correction.
+the frequency domain by a discrete Fourier transform (DFT)
+engine.
+QAM symbols appear again at this stage, with the noisy
+constellations and sub-channel-dependent amplitude reduction
+with angular rotation (Fig. 3) caused by the frequency-selective
+loss and phase delay of the channel. Frequency-domain equal-
+izer (FDE) corrects the amplitudes and angles of the QAM
+symbols using a single complex multiplier per sub-channel.
+The equalized QAM symbols are then demodulated to the
+binary bitstream.
+B. Frequency-Domain Equalization
+One of the main advantages of using OFDM modulation
+for high-speed serial links is its per-sub-channel equaliza-
+tion nature. As shown in Fig. 4, the attenuated and rotated
+frequency-domain QAM symbol (Y(k)) on each sub-channel
+is equalized to ˆX(k) by a single complex multiplier as
+ˆX(k) = Y(k) · H−1(k),
+(1)
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+PAGE 3
+KIM: FAR-END CROSSTALK CANCELLATION WITH MIMO OFDM
+83
+Fig. 5.
+Simpliﬁed block diagram of a 2 × 2 MIMO OFDM TRX for FEXT cancellation.
+where H−1(k) is the inverse of the channel frequency response
+for kth sub-channel, and k ∈{1, . . . , NFFT
+2
+−1} is the sub-
+channel index with NFFT being the length of the DFT and
+IDFT. It is worth noting that only the ﬁrst half of the total
+DFT output bins are to be equalized (excluding the DC bin)
+since the second half is conjugate symmetry of the ﬁrst
+half, containing the same information due to the Hermitian
+symmetry [12].
+Such per-sub-channel equalization allows much simpler
+equalizer DSP implementation as compared to that of PAM-4
+or PAM-8 which requires heavy feed-forward equalizer (FFE)
+based on parallel FIR ﬁlters. The number of taps for FFE
+reaches around 30 for 112 Gb/s data rate in addition to a spec-
+ulative 1-tap DFE [2]. Considering a 64-way parallel data path,
+the number of real multipliers used for FFE is nearly 2K, while
+only around 100 real multipliers are needed for OFDM FDE
+with the same target data rate, excluding the resources related
+to the fast Fourier transform (FFT) that efﬁciently implements
+the DFT.
+III. FEXT CANCELLATION WITH MIMO OFDM TRX
+The single-lane OFDM serial link shown in Fig. 1 can be
+extended to a MIMO structure for FEXT cancellation. A sim-
+pliﬁed block diagram of a 2×2 MIMO OFDM TRX is shown
+in Fig. 5 considering the simplest FEXT scenario with only
+one aggressor. Note that the analog data paths in Fig. 5 are
+shown with single-ended drawing for the sake of simplicity,
+while they are actually differential. We assume that the single-
+lane SNR without the FEXT aggressor for every sub-channel k
+is sufﬁciently high to meet the desired target pre-FEC bit error
+rate (BER), e.g., < 10−4. For an OFDM symbol transmission
+and reception, the received QAM symbols on kth sub-channel
+Y1,k and Y2,k before the equalization can then be expressed as
+Y1,k
+Y2,k
+
+=
+H13,kX1,k + H23,kX2,k
+H14,kX1,k + H24,kX2,k
+
+,
+(2)
+where H13,k, H24,k and H23,k, H14,k are the main and FEXT
+channel frequency responses at kth sub-channel, respectively,
+and X1,k, X2,k are the transmitted QAM symbols on kth sub-
+channel in the frequency domain, for the 2 × 2 MIMO TRX
+shown in Fig. 5. Then, the estimates of the transmitted symbols
+ˆX1,k and ˆX2,k can be obtained by
+ ˆX1,k
+ˆX2,k
+
+= H−1
+k
+Y1,k
+Y2,k
+
+(3)
+with
+Hk =
+H13,k
+H23,k
+H14,k
+H24,k
+
+.
+(4)
+Rewriting (3) with Pk = H−1
+k ,
+ ˆX1,k
+ˆX2,k
+
+=
+P1,kY1,k + P2,kY2,k
+P3,kY1,k + P4,kY2,k
+
+(5)
+with
+Pk =
+P1,k
+P2,k
+P3,k
+P4,k
+
+=
+1
+det(Hk)
+ H24,k
+−H23,k
+−H14,k
+H13,k
+
+. (6)
+It can be seen from (5) that, taking the FEXT into account, the
+estimated symbol ˆXk for each lane is obtained using one addi-
+tional complex multiplication (and an adder) in addition to the
+simple single-lane FDE shown in Fig. 4. It is worth noting that
+the MIMO equalization parameters for each sub-channel k,
+Pk, can be estimated relatively slowly in source-synchronized
+wireline communications, e.g., once a millisecond, as the
+channels are slowly varying. Hence, circuit-level hardware
+overhead coming from the channel estimation to obtain Pk
+is negligible.
+IV. 2 × 2 MIMO CHANNEL ESTIMATION
+After the link power-up, the OFDM TX ﬁrst sends a syn-
+chronization sequence so that the RX can ﬁnd the CP index.
+Once the TX and the RX are synchronized, pilot symbols are
+sent for the RX channel estimation (CHEST). The CHEST is
+repeated every transmission of M OFDM symbols; hence the
+effective data rate degradation is 100× 1
+M %, which is negligible
+for a sufﬁciently large M such as M > 100.
+A. Equalization Coefﬁcient Calculation
+For a 2 × 2 MIMO CHEST, two OFDM symbols are trans-
+mitted on each TRX lane at the same time period as described
+below. Firstly, for n = 1 where n ∈{1, 2} is the OFDM
+symbol index, two OFDM symbols with QAMs having the
+same real and imaginary magnitudes but with opposite polar-
+ities (X1,k = Sk and X2,k = −Sk) for each sub-channel are
+transmitted through the two TRX lanes, respectively. Then,
+the received QAM symbols for each sub-channel on the two
+lanes can be expressed as
+Y(n=1)
+1,k
+= H13,kSk −H23,kSk
+(7)
+Y(n=1)
+2,k
+= H14,kSk −H24,kSk,
+(8)
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+PAGE 4
+84
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+Fig. 6.
+Circuit implementation example of FDE for 2 × 2 MIMO FEXT
+cancellation and the unit FDE cell for each sub-channel k (inside the red
+rectangle).
+Fig. 7.
+Block diagram of the CHEST circuit. The throughput of the CHEST
+can be low as the source-synchronized wireline channels slowly vary.
+where Y(n=1)
+m,k
+is the received channel estimation symbol on the
+kth sub-channel when n = 1 with m ∈{1, 2} being the lane
+index. Secondly, for n = 2, two identical OFDM symbols Sk
+for each sub-channel k are transmitted through the two lanes.
+Hence, the received symbols are expressed as
+Y(n=2)
+1,k
+= H13,kSk + H23,kSk
+(9)
+Y(n=2)
+2,k
+= H14,kSk + H24,kSk.
+(10)
+By subtracting (7) from (9) and by adding (7) and (9), we
+obtain H23,k and H13,k, respectively, as
+H23,k =
+Y(n=2)
+1,k
+−Y(n=1)
+1,k
+2Sk
+, H13,k =
+Y(n=2)
+1,k
++ Y(n=1)
+1,k
+2Sk
+. (11)
+Similarly, by subtracting (8) from (10) and by adding (8)
+and (10), we obtain H14 and H24, respectively, as
+H14,k =
+Y(n=2)
+2,k
++ Y(n=1)
+2,k
+2Sk
+, H24,k =
+Y(n=2)
+2,k
+−Y(n=1)
+2,k
+2Sk
+. (12)
+Since Y(n=1)
+1,k
+, Y(n=2)
+1,k
+, Y(n=1)
+2,k
+, Y(n=2)
+2,k
+are measured values on
+the RX and Sk is a known value, with two OFDM symbol
+transmission and reception, Hk for all k can be obtained,
+and therefore, Pk can be calculated. Having Pk, the equal-
+ized symbols OXk with FEXT cancellation can be calculated
+with (5).
+With the presence of random noise caused by several
+sources such as DAC and ADC quantization, thermal noise,
+AFE non-linearity and so on, the Pk can be moving-averaged
+for more accurate CHEST. Hence, after the link power-up, the
+CHEST phase can include hundreds of pilot symbols (< 10 µs
+in time with NFFT = 1024 and DR = 224 Gb/s) for an accu-
+rate CHEST, and then slowly moving-averaged to track the
+channel characteristic variation.
+B. 2 × 2 FDE Circuit
+The structure of the 2×2 MIMO FDE is shown in Fig. 6. By
+having only one more complex multiplier for each sub-channel
+TABLE I
+COMPARISON OF THE DSP EQUALIZERS FOR OFDM
+AND ADC-BASED PAM-4
+Fig. 8.
+Measured channel frequency response used for simulations, where
+the necessity of FEXT cancellation depends on the loss difference between
+THRU and FEXT responses.
+equalizer on top of the single-lane FDE, the attenuated/rotated
+QAM symbol on each DFT output bin can be equalized with
+FEXT cancellation. The unit FDE cells shown inside the red
+rectangles in Fig. 6 perform (5) with properly estimated P1:4,k
+for kth sub-channel of the two RX lanes. The Pk is estimated by
+a CHEST circuit of which block diagram is shown in Fig. 7.
+Once the un-equalized frequency-domain QAM symbols on
+the two RX lanes (Y1,1:NFFT/2−1, Y2,1:NFFT/2−1) are captured,
+the CHEST engine performs (7)–(12) with simple arithmetic
+followed by 2×2 matrix inversions for obtaining P
+′
+1:4. As P
+′
+1:4
+are inaccurate due to random noise, moving average is applied
+with sufﬁciently large averaging window L (e.g., L > 100) to
+obtain P1:4.
+V. SIMULATION RESULTS
+For simulations, a two-lane OFDM TRX is modeled with
+NFFT
+=
+1024, Ncp
+=
+8, 64-QAM symbols for all
+sub-channels, data rate DR = 224 Gb/s, OFDM-occupied
+bandwidth of 37.625 GHz, DAC/ADC sampling rate Fs =
+75.25 GS/s, 7-bit DAC/ADC, 1 % UI root-mean-square (RMS)
+TX/RX sampling jitter, 1.8 mV RMS RX input random noise,
+1 Vpp,diff DAC output full-scale, and 0.5 Vpp,diff ADC input
+full-scale. The clipping threshold-to-average magnitude ratios
+are 12.6 dB on the TX output and 13.4 dB on the RX input. The
+CTLE is not considered and the RX VGA ampliﬁes the input
+signal so that the ADC uses its input full-scale to sample the
+input signal. The OFDM TX applies -10.5 dB of de-emphasis
+at sub-channel k = 1, and fewer de-emphasis levels that are
+linearly proportional to the sub-channel index k in dB-scale in
+such a way that the gain is 0 dB at k = 511.
+The measured channel frequency response [17] used for
+the simulations is shown in Fig. 8. It can be seen from the
+highlighted area by a dotted red rectangle in Fig. 8 that the
+FEXT frequency response is weak as compared to the THRU
+response at low-frequency, exhibiting about 28 dB of main-
+to-FEXT ratio at sub-channel k = 50 corresponding to the
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+
+PAGE 5
+KIM: FAR-END CROSSTALK CANCELLATION WITH MIMO OFDM
+85
+Fig. 9.
+Magnitudes of the P1,k (a) and P2,k (b) for k ∈{1, 11, . . . , 511}
+with respect to the moving average window size.
+Fig. 10. Constellation diagrams for selected sub-channels with (blue markers)
+and without (black markers) FEXT cancellation: a low-frequency sub-channel
+where FEXT is totally negligible (a), a mid-low-frequency sub-channel where
+FEXT starts to affect the sub-channel SER (b), a high-frequency sub-channel
+where FEXT is signiﬁcant (c), and SER at each sub-channel (d).
+frequency of about 3.7 GHz given simulation settings. Fig. 9(a)
+and Fig. 9(b) show the magnitudes of P1,k and P2,k, respec-
+tively, with respect to the moving average window size L from
+1 to 1000, for k ∈{1, 11, . . . , 511}, while displaying for all
+k ∈{1, 2, . . . , 511} will result in too crowded ﬁgures. As L
+increases, P1,k and P2,k become less noisy due to the noise
+averaging, and from L ≥100, they are well stabilized. The
+convergence trend for P3,k and P4,k is the same as P1,k and
+P2,k while they are not plotted in this brief.
+Constellation diagrams after FDE without (black markers)
+and with (blue markers) are shown in Fig. 10(a)–(c). The SER
+at each sub-channel without and with FEXT cancellation is
+plotted in Fig. 10(d): it can be seen that the low-frequency sub-
+channels (up to k ≈50) are practically not affected by FEXT,
+while higher frequency sub-channels clearly beneﬁt from the
+FEXT cancellation. The overall SER without and with FEXT
+cancellation is 4 × 10−1 and 1.4 × 10−5, respectively, and
+the RX with FEXT cancellation achieves pre-FEC BER of
+2.4 × 10−6 considering gray coding. Table I provides qualita-
+tive comparisons between the DSPs with PAM-4 and MIMO
+OFDM for communicating at 224 Gb/s of data rate through
+channels with > 32 dB loss at 56 GHz.
+VI. CONCLUSION
+Area- and energy-efﬁcient FEXT cancellation scheme with
+MIMO OFDM for ultra-high-speed electrical serial links is
+presented. The MIMO OFDM TRX with the frequency-
+domain per-sub-channel equalization nature effectively cancels
+out the FEXT with a lightweight DSP overhead. The cost
+to pay is only a single complex multiplier per sub-channel
+per aggressor, while time-domain modulations such as PAM-4
+or PAM-8 with ADC-based RX require heavy parallel con-
+volution units per aggressor that are considerably heavy in
+terms of area and power. Simulation results with one aggres-
+sor demonstrate that the MIMO OFDM can be effective for
+> 200 Gb/s/lane dense electrical links beyond PAM.
+REFERENCES
+[1] J. F. Bulzacchelli et al., “A 28-Gb/s 4-tap FFE/15-tap DFE serial
+link transceiver in 32-nm SOI CMOS technology,” IEEE J. Solid-State
+Circuits, vol. 47, no. 12, pp. 3232–3248, Dec. 2012.
+[2] J. Im et al., “A 112Gb/s PAM-4 long-reach wireline transceiver using a
+36-way time-interleaved SAR-ADC and inverter-based RX analog front-
+end in 7nm FinFET,” in IEEE ISSCC Dig. Tech. Papers, Feb. 2020,
+pp. 116–118.
+[3] P. Mishra et al., “A 112Gb/s ADC-DSP-based PAM-4 transceiver for
+long-reach applications with >40dB channel loss in 7nm FinFET,” in
+IEEE ISSCC Dig. Tech. Papers, Feb. 2021, pp. 138–140.
+[4] H. Yueksel et al., “A 3.6 pJ/b 56Gb/s 4-PAM receiver with 6-bit TI-SAR
+ADC and quarter-rate speculative 2-tap DFE in 32 nm CMOS,” in Proc.
+IEEE Eur. Solid-State Circuits Conf. (ESSCIRC), 2015, pp. 148–151.
+[5] Y. Frans et al., “A 56-Gb/s PAM4 wireline transceiver using a 32-
+way time-interleaved SAR ADC in 16-nm FinFET,” IEEE J. Solid-State
+Circuits, vol. 52, no. 4, pp. 1101–1110, Apr. 2017.
+[6] A. Roshan-Zamir et al., “A 56-Gb/s PAM4 receiver with low-overhead
+techniques for threshold and edge-based DFE FIR- and IIR-tap adap-
+tation in 65-nm CMOS,” IEEE J. Solid-State Circuits, vol. 54, no. 3,
+pp. 672–684, Mar. 2019.
+[7] T. Ali et al., “A 180mW 56Gb/s DSP-based transceiver for high-density
+IOs in data center switches in 7nm FinFET technology,” in IEEE ISSCC
+Dig. Tech. Papers, Feb. 2019, pp. 118–120.
+[8] G. Kim et al., “A 4.8 pJ/b 56Gb/s ADC-based PAM-4 wireline receiver
+data-path with cyclic preﬁx in 14nm FinFET,” in Proc. IEEE Asian
+Solid-State Circuits Conf. (ASSCC), Nov. 2019, pp. 239–240.
+[9] C. Menolﬁet al., “A 112Gb/s 2.6pJ/b 8-tap FFE PAM-4 SST TX
+in 14nm CMOS,” in IEEE ISSCC Dig. Tech. Papers, Feb. 2018,
+pp. 104–106.
+[10] Z. Guo et al., “A 112.5 Gb/s ADC-DSP-based PAM-4 long-reach
+transceiver with >50dB channel loss in 5nm FinFET,” in IEEE ISSCC
+Dig. Tech. Papers, Feb. 2022, pp. 116–118.
+[11] C. Aprile et al., “An eight-lane 7-Gb/s/pin source synchronous single-
+ended RX with equalization and far-end crosstalk cancellation for
+backplane channels,” IEEE J. Solid-State Circuits, vol. 53, no. 3,
+pp. 861–872, Mar. 2018.
+[12] G. Kim et al., “A 161mW 56Gb/s ADC-based discrete multitone wire-
+line receiver data-path in 14nm FinFET,” IEEE J. Solid-State Circuits,
+vol. 55, no. 1, pp. 38–48, Jan. 2020.
+[13] B. Vatankhahghadim et al., “A study of discrete multitone modulation
+for wireline links beyond 100 Gb/s,” IEEE Open J. Circuits Syst., vol. 2,
+pp. 78–90, 2021.
+[14] J. Salinas et al., “Performance comparison of baseband signaling and
+discrete multi-tone for wireline communication,” IEEE Open J. Circuits
+Syst., vol. 2, pp. 65–77, 2021.
+[15] J. Armstrong, “OFDM for optical communications,” IEEE J. Lightw.
+Technol., vol. 27, no. 3, pp. 189–204, Feb. 2009.
+[16] G. Kim, “Design space exploration of single-lane OFDM-based serial
+links for high-speed wireline communications,” IEEE Open J. Circuits
+Syst., vol. 3, pp. 134–146, 2022.
+[17] “IEEE P802.3ck Task Force—Tools and Channels.”
+Accessed: 2019.
+[Online]. Available: http://www.ieee802.org/3/ck/public/tools/index.html
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 

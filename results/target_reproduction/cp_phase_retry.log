@@ -1,0 +1,10 @@
+
+	Sponsored License -- for use in support of a program or activity sponsored by MathWorks.
+	Not for government, commercial or other non-sponsored organizational use.
+
+CP8 Fs75.397 BER0.0002288813 SER0.001345401
+CP16 Fs75.982 BER0.0002522016 SER0.001485812
+CP32 Fs77.151 BER0.002886579 SER0.01471233
+CP64 Fs79.489 BER4.076973e-05 SER0.0002441292
+CP70 Fs79.927 BER0.000175636 SER0.001049902
+CP_PHASE_SWEEP_COMPLETE

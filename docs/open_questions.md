@@ -1,5 +1,12 @@
 # Open Questions
 
+> Current evidence: see `phase1_findings.md` and `paper_coverage.md`.
+> Public IEEE channel files are available and candidates have been inspected.
+> The exact paper THRU/FEXT filenames and model conventions remain unresolved.
+> The statement below that the sample count is absent applies to the FEXT
+> headline; DSE specifies 48 million bits. The >32 dB at 56 GHz statement
+> belongs to the Table I comparison in Section V, not a displaced caption.
+
 Per Part 12 of the project brief: issues in the paper(s) that are ambiguous or missing, and assumptions
 that materially affect reproducibility, are listed here explicitly rather than silently worked around.
 

@@ -1,0 +1,34 @@
+PHASE1_CHECKS_PASS: rate, QAM/OFDM, shared gains, independent jitter, CHEST algebra
+64QAM_paper_scalar_budgets seed401 Q64 7bit 132.89fs: BER 0.0929705 SER 0.369136 errors570095/6132000
+64QAM_only_9bit seed401 Q64 9bit 132.89fs: BER 0.0901869 SER 0.358469 errors553026/6132000
+64QAM_low_loss_matched_loading seed401 Q64 9bit 132.89fs: BER 0.00126288 SER 0.00742466 errors7744/6132000
+64QAM_low_noise seed401 Q64 9bit 132.89fs: BER 0.00059214 SER 0.00351076 errors3631/6132000
+64QAM_candidate_9bit seed401 Q64 9bit 22.28fs: BER 0 SER 0 errors0/6132000
+64QAM_candidate_8bit seed401 Q64 8bit 22.28fs: BER 0 SER 0 errors0/6132000
+64QAM_candidate_7bit seed401 Q64 7bit 22.28fs: BER 2.44618e-06 SER 1.46771e-05 errors15/6132000
+64QAM_8bit_noise_margin seed401 Q64 8bit 22.28fs: BER 0 SER 0 errors0/6132000
+64QAM_8bit_loss_margin seed401 Q64 8bit 22.28fs: BER 0 SER 0 errors0/6132000
+64QAM_8bit_jitter_margin seed401 Q64 8bit 50.00fs: BER 1.63079e-07 SER 9.78474e-07 errors1/6132000
+256QAM_paper_scalar_budgets seed401 Q256 7bit 132.89fs: BER 0.0918344 SER 0.529365 errors750838/8176000
+256QAM_candidate_9bit seed401 Q256 9bit 22.28fs: BER 8.68395e-06 SER 6.94716e-05 errors71/8176000
+256QAM_candidate_8bit seed401 Q256 8bit 22.28fs: BER 9.90705e-06 SER 7.92564e-05 errors81/8176000
+256QAM_lower_noise seed401 Q256 9bit 22.28fs: BER 7.46086e-06 SER 5.96869e-05 errors61/8176000
+256QAM_lower_noise_jitter seed401 Q256 9bit 10.00fs: BER 7.09393e-06 SER 5.67515e-05 errors58/8176000
+256QAM_10bit seed401 Q256 10bit 22.28fs: BER 7.33855e-06 SER 5.87084e-05 errors60/8176000
+256QAM_measured_channel_sensitivity seed401 Q256 9bit 22.28fs: BER 0.028136 SER 0.145139 errors230040/8176000
+64QAM_candidate_8bit seed431 Q64 8bit 22.28fs: BER 0 SER 0 errors0/34339200
+64QAM_candidate_8bit seed457 Q64 8bit 22.28fs: BER 0 SER 0 errors0/34339200
+64QAM_candidate_8bit seed479 Q64 8bit 22.28fs: BER 0 SER 0 errors0/34339200
+64QAM_candidate_8bit_spline_check seed503 Q64 8bit 22.28fs: BER 0 SER 0 errors0/6132000
+256QAM_candidate_9bit seed431 Q256 9bit 22.28fs: BER 2.53355e-06 SER 2.02684e-05 errors116/45785600
+256QAM_candidate_9bit seed457 Q256 9bit 22.28fs: BER 3.47271e-06 SER 2.77817e-05 errors159/45785600
+256QAM_candidate_9bit seed479 Q256 9bit 22.28fs: BER 4.56475e-06 SER 3.6518e-05 errors209/45785600
+256QAM_candidate_9bit_spline_check seed503 Q256 9bit 22.28fs: BER 1.16194e-05 SER 9.2955e-05 errors95/8176000
+256QAM_lower_noise_jitter seed431 Q256 9bit 10.00fs: BER 1.79096e-06 SER 1.43276e-05 errors82/45785600
+256QAM_lower_noise_jitter seed457 Q256 9bit 10.00fs: BER 2.70828e-06 SER 2.16662e-05 errors124/45785600
+256QAM_lower_noise_jitter seed479 Q256 9bit 10.00fs: BER 3.82216e-06 SER 3.05773e-05 errors175/45785600
+256QAM_lower_noise_jitter_spline_check seed503 Q256 9bit 10.00fs: BER 1.01517e-05 SER 8.12133e-05 errors83/8176000
+POOLED 64QAM_candidate_8bit BER 0 upper95 2.907981e-08 SER 0 upper95 1.74478847e-07 bounds-pass 1
+POOLED 256QAM_candidate_9bit BER 3.52366974e-06 upper95 3.79715277e-06 SER 2.81893579e-05 upper95 3.0377192e-05 bounds-pass 0
+POOLED 256QAM_lower_noise_jitter BER 2.77379788e-06 upper95 3.017597e-06 SER 2.2190383e-05 upper95 2.41407545e-05 bounds-pass 0
+400G_VERIFICATION_COMPLETE: conditional behavioral model; no transistor/PDK validation.

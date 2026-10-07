@@ -48,7 +48,7 @@ Every row below is tagged:
 | ADC input full-scale | 0.5 V_pp,diff | A | [FEXT] p.84, Sec. V |
 | DAC clipping threshold-to-average ratio | 12.6 dB | A | [FEXT] p.84, Sec. V, "clipping threshold-to-average magnitude ratios are 12.6 dB on the TX output" |
 | ADC clipping threshold-to-average ratio | 13.4 dB | A | [FEXT] p.84, Sec. V, "13.4 dB on the RX input" |
-| Definition of clipping ratio | R_clip = β / A_RMS (threshold-to-RMS, in linear units after converting the dB figure above) | A | [DSE] p.143, Sec. V, eq. surrounding "R_clip,DAC = β_DAC/A_RMS,DAC" |
+| Definition of clipping ratio | FEXT says threshold-to-average magnitude; DSE explicitly uses threshold-to-RMS. They cannot silently be equated. For Gaussian OFDM, mean-absolute/RMS = sqrt(2/pi); FEXT's 12.6/13.4 dB give approximate RMS ratios 3.404/3.732 under the literal mean-magnitude interpretation. | C interpretation / B conversion | [FEXT] p.84; [DSE] p.143 |
 | CTLE | Not used ("CTLE is not considered") | A | [FEXT] p.84, Sec. V |
 | VGA | RX VGA scales the input so the ADC uses its full input range | A | [FEXT] p.84, Sec. V |
 
@@ -125,7 +125,7 @@ the paper's exact measured channel.
   model in either paper) — **(C)**. Do not assume 22 nm for the paper's own study; 22 nm is only the *candidate future
   implementation node* the user has access to (see `docs/22nm_mapping.md`).
 - Random-number-generator seed / exact bit sequence used in the paper's own simulations — **(C)**
-- Number of OFDM symbols simulated for each reported BER/SER (not stated) — **(C)**
+- Number of OFDM symbols for FEXT headline BER/SER is not stated; DSE explicitly simulates 48 million input bits (p.143). These are separate studies.
 - Exact CHEST pilot sequence values S_k beyond "known QAM values with equal magnitude, opposite/same polarity" — **(C)**
 - FEC scheme/code rate (FEC is mentioned as present in the general architecture, Fig. 1, but no FEC parameters are
   given; all BER/SER figures reported are **pre-FEC**) — **(C)**

@@ -1,6 +1,6 @@
 function cfg = config_400G(overrides)
 %CONFIG_400G  Parameterized configuration for scaling investigation toward
-%400 Gb/s/lane. Starts from the validated 224G baseline (config_224G) and
+%400 Gb/s/lane. Starts from the 224G configuration (config_224G) and
 %overrides only the fields needed to hit a target data rate / explore a
 %bottleneck axis (Part 7-8 of the project brief).
 %
@@ -18,7 +18,7 @@ if nargin < 1
     overrides = struct();
 end
 
-% Start from the validated, paper-faithful 224G baseline
+% Start from 224G defaults; the paper's numerical headline is not reproduced.
 cfg = config_224G();
 cfg.name = '400G_investigation';
 
@@ -36,15 +36,8 @@ if isfield(overrides, 'data_rate_bps')
     cfg.data_rate_bps = overrides.data_rate_bps;
 end
 
-% Default scaling rule: keep NFFT/NCP/modulation fixed as in the 224G
-% baseline and let sampling rate (and therefore occupied bandwidth) grow
-% proportionally to the data-rate ratio. This is ONE reasonable default
-% among many possible scaling strategies (increasing modulation order,
-% ADC resolution, or FFT size are alternative axes explored by the sweep).
-rate_ratio = cfg.data_rate_bps / 224e9;     % [B] w.r.t. paper's 224G reference
-cfg.fs          = 75.25e9 * rate_ratio;      % [C] scaling assumption
-cfg.occupied_bw = 37.625e9 * rate_ratio;     % [C] scaling assumption
-
+% Sampling rate is solved below AFTER modulation/FFT/CP overrides, using
+% the exact framing-rate equation. Physical hardware feasibility is separate.
 % Now apply ALL overrides (data_rate_bps again is a no-op here since already
 % applied; an explicit fs/occupied_bw/ofdm/mod/etc. override still wins over
 % the derived scaling above, as intended).
@@ -54,6 +47,13 @@ cfg = apply_overrides(cfg, overrides);
 cfg.ofdm.N_used = cfg.ofdm.N_FFT/2 - 1;
 cfg.ofdm.k_idx  = (1:cfg.ofdm.N_used).';
 cfg.mod.bits_per_sym = log2(cfg.mod.order);
+% Solve the actual OFDM rate equation for every modulation/FFT/CP choice.
+% An explicit Fs override is a stress experiment, and its actual rate is reported.
+if ~isfield(overrides,'fs')
+    cfg.fs = cfg.data_rate_bps*(cfg.ofdm.N_FFT+cfg.ofdm.N_CP) / ...
+        (cfg.ofdm.N_used*cfg.mod.bits_per_sym);
+end
+cfg.occupied_bw = cfg.fs/2;
 
 % Achieved data rate given the FINAL (possibly overridden) parameter set:
 %   DR = N_used * bits_per_sym * Fs / (NFFT + NCP)

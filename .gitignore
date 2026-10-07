@@ -1,0 +1,11 @@
+./Claude outputs
+
+# Large generated MATLAB snapshots stay local; share CSV summaries and figures.
+/results/224G/results_224G.mat
+/results/pulled_friend_exact/results_224G.mat
+
+# Local presentation build files and Python caches.
+/tmp/proposal_build/
+/.chart-data-*/
+__pycache__/
+*.pyc

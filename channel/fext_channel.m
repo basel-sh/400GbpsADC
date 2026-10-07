@@ -27,6 +27,15 @@ if isfield(cfg.channel, 'type') && strcmp(cfg.channel.type, 'touchstone')
 end
 fs = cfg.fs;
 Nfft_ir = cfg.channel.ir_fft_len;
+if isfield(cfg.channel,'fext_response_csv') && ~isempty(cfg.channel.fext_response_csv)
+    a=readmatrix(cfg.channel.fext_response_csv);
+    if fs/2>a(end,1),error('channel:bandwidth','FEXT file lacks required bandwidth');end
+    f=(0:Nfft_ir/2)'*fs/Nfft_ir;
+    magdb=interp1(a(:,1),a(:,4),f,'linear','extrap');
+    h=minimum_phase_from_mag_db(magdb,Nfft_ir,cfg.channel.num_taps);
+    info.source=cfg.channel.fext_response_csv;
+    return;
+end
 
 R_ref = cfg.channel.fext_to_main_ratio_dB; % 28 dB
 f_ref = cfg.channel.fext_ratio_at_freq;    % 3.7 GHz

@@ -1,5 +1,11 @@
 # 224G_400G_MIMO_OFDM
 
+**2026-10-07 paper audit:** run `validate_phase1`, `run_phase1_audit`, then
+`run_phase1_requirements`. New results are saved under `results/phase1/`.
+Read `docs/phase1_findings.md` and `docs/400G_approval_plan.md` for current
+evidence, unresolved reproduction assumptions, and conditional upgrade budgets.
+Historical validation numbers below and in older documents predate this audit.
+
 A MATLAB system-level simulation of the 2x2 MIMO-OFDM FEXT-cancelling wireline link described in:
 
 > G. Kim, "Far-End Crosstalk Cancellation With MIMO OFDM for >200 Gb/s ADC-Based Serial Links,"

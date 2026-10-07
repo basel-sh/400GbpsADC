@@ -1,0 +1,24 @@
+
+	Sponsored License -- for use in support of a program or activity sponsored by MathWorks.
+	Not for government, commercial or other non-sponsored organizational use.
+
+224G noise 1.80mV BER 0.0044152 SER 0.0258728
+224G noise 1.00mV BER 0.00022619 SER 0.00135519
+224G noise 0.70mV BER 2.98434e-05 SER 0.000179061
+224G noise 0.50mV BER 7.01239e-06 SER 4.20744e-05
+224G noise 0.30mV BER 2.77234e-06 SER 1.66341e-05
+224G noise 0.10mV BER 1.79387e-06 SER 1.07632e-05
+measured_magnitude_minphase BER 0.0102321 SER 0.0562857
+measured_complex BER 0.0127003 SER 0.064729
+400G Q64 loss5 complete, best BER 0
+400G Q64 loss10 complete, best BER 0
+400G Q64 loss15 complete, best BER 0
+400G Q64 loss23 complete, best BER 0
+400G Q256 loss5 complete, best BER 0
+400G Q256 loss10 complete, best BER 0
+400G Q256 loss15 complete, best BER 0
+400G Q256 loss23 complete, best BER 0
+400G conditional seed101 BER 0 SER 0 errors0/34339200
+400G conditional seed127 BER 0 SER 0 errors0/34339200
+400G conditional seed151 BER 0 SER 0 errors0/34339200
+REQUIREMENTS_COMPLETE

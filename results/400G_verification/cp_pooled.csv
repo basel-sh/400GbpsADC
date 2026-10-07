@@ -1,0 +1,2 @@
+cp,rate_Gbps,fs_GSs,ber,ser,bit_errors,num_bits,symbol_errors,num_symbols
+8,400,100.978473581213,6.93813484297829e-06,5.53885937936819e-05,953,137356800,951,17169600

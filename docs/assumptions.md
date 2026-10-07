@@ -1,5 +1,12 @@
 # Assumptions
 
+> The current audit is documented in `phase1_findings.md` and
+> `paper_coverage.md`. Training now shares fixed calibrated DAC/VGA gains
+> with data, uses independent noise/jitter draws, and averages inverse
+> coefficients P as in FEXT Fig.7. Clipping-reference and noise-reference
+> ambiguities are measured separately. Historical descriptions below may
+> predate these corrections.
+
 Every assumption below exists because the reference paper(s) do not specify the corresponding value or
 mechanism (tag **[C]** in `specs/224G_paper_specs.md`). Each is implemented as an explicit, configurable
 parameter in `config/config_224G.m` (or documented in code) -- nothing is silently hard-coded inside a

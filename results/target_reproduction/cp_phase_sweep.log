@@ -1,0 +1,23 @@
+CP8 Fs75.397 BER0.0002288813 SER0.001345401
+CP16 Fs75.982 BER0.0002522016 SER0.001485812
+CP32 Fs77.151 BER0.002886579 SER0.01471233
+CP64 Fs79.489 BER4.076973e-05 SER0.0002441292
+{Error using fext_channel (line 28)
+FEXT file lacks required bandwidth
+
+Error in calibrate_link_gains (line 11)
+    [hm, mi] = main_channel(cfg); [hf, ~] = fext_channel(cfg,mi);
+                                            ^^^^^^^^^^^^^^^^^^^^
+Error in run_224G_test (line 42)
+if o.apply_impairments, cfg = calibrate_link_gains(cfg,o); end
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Error in run_cp_phase_noise_sweep (line 13)
+ r=run_224G_test(c,struct('seed_offset',601));
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+} 
+CP8 Fs75.397 BER0.0002288813 SER0.001345401
+CP16 Fs75.982 BER0.0002522016 SER0.001485812
+CP32 Fs77.151 BER0.002886579 SER0.01471233
+CP64 Fs79.489 BER4.076973e-05 SER0.0002441292
+CP70 Fs79.927 BER0.000175636 SER0.001049902
+CP_PHASE_SWEEP_COMPLETE
