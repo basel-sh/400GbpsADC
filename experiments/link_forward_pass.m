@@ -75,12 +75,23 @@ if opts.apply_impairments
         sig_pow = mean(r1.^2) + eps;
         noise_rms = sqrt(sig_pow / 10^(opts.snr_override_dB/10));
     end
-    r1 = add_noise(r1, noise_rms, opts.seed_offset*2 + 1);
-    r2 = add_noise(r2, noise_rms, opts.seed_offset*2 + 2);
+    % Where is the 1.8 mV noise injected?  cfg.noise.reference:
+    %   'before_vga' (default) - at the RX input, then amplified by the VGA
+    %   'adc_input'            - same RMS but added after the VGA (ADC input)
+    noise_at_adc = isfield(cfg.noise, 'reference') && ...
+                   strcmp(cfg.noise.reference, 'adc_input') && isempty(opts.snr_override_dB);
+    cfg1 = cfg; cfg2 = cfg;
+    if noise_at_adc
+        cfg1.adc.input_noise_rms_V = noise_rms;  cfg1.adc.input_noise_seed = opts.seed_offset*2 + 1;
+        cfg2.adc.input_noise_rms_V = noise_rms;  cfg2.adc.input_noise_seed = opts.seed_offset*2 + 2;
+    else
+        r1 = add_noise(r1, noise_rms, opts.seed_offset*2 + 1);
+        r2 = add_noise(r2, noise_rms, opts.seed_offset*2 + 2);
+    end
     diag.noise_rms_V = noise_rms;
 
-    [a1, adc_meta1] = adc_model(r1, cfg, true);
-    [a2, adc_meta2] = adc_model(r2, cfg, true);
+    [a1, adc_meta1] = adc_model(r1, cfg1, true);
+    [a2, adc_meta2] = adc_model(r2, cfg2, true);
     diag.adc_frac_clipped = [adc_meta1.frac_clipped, adc_meta2.frac_clipped];
 else
     a1 = r1;

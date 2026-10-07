@@ -23,6 +23,10 @@ function [h, info] = main_channel(cfg)
 %          handle info.loss_dB_fn(f) for reuse (e.g. by fext_channel.m and
 %          plot_channel_response.m)
 
+if isfield(cfg.channel, 'type') && strcmp(cfg.channel.type, 'touchstone')
+    [h, info] = touchstone_channel(cfg, 'main');
+    return;
+end
 fs = cfg.fs;
 Nfft_ir = cfg.channel.ir_fft_len;
 
