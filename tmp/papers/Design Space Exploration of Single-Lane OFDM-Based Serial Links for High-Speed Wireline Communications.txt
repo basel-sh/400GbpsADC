@@ -898,7 +898,7 @@ electrical link,” in Proc. IEEE 62nd Int. Midwest Symp. Circuits Syst.
 [27] L. Kull et al., “A 10-bit 20–40 GS/s ADC with 37 dB SNDR at 40 GHz
 input using first order sampling bandwidth calibration,” in Proc. IEEE
 Symp. VLSI Circuits, Honolulu, HI, USA, 2018, pp. 275–276.
-[28] “IEEE P802.3ck Task Force—Tools and Channels.” 2020. [Online].
+[28] “IEEE P802.3ck Task Force, Tools and Channels.” 2020. [Online].
 Available: http://www.ieee802.org/3/ck/public/tools/index.html
 GAIN KIM (Member, IEEE) received the B.Sc.
 and M.Sc. degrees in electrical engineering from
@@ -918,7 +918,7 @@ Ph.D.
 degree in microsystems and microelectronics from
 EPFL, Lausanne, in 2018. From September 2016
 to July 2018, he was with the High-Speed
-Interconnect Technology Group, IBM Research—
+Interconnect Technology Group, IBM Research,
 Zurich, Rüschlikon, Switzerland, working on the
 design of ADC-based wireline receivers. From
 2018 to 2020, he was a Postdoctoral Fellow with KAIST. From 2020

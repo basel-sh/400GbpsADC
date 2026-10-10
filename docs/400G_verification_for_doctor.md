@@ -1,11 +1,12 @@
-# 400 Gb/s per lane: phase-one verification and Doctor discussion
+# 400 Gb/s per lane: verified model results and professor discussion
 
-Completed 8 October 2026 with the current merged MATLAB code, MATLAB R2026b.
+Simulation runs completed 8 October 2026 with the merged MATLAB code, MATLAB R2026b.
+Documentation reviewed 10 October 2026. See [current validation](validation.md) for the concise result table and [project progress](project_progress.md) for what we changed.
 The objective is behavioral feasibility and explicit circuit requirements.
 Clipping is fixed at the paper's DAC/ADC values **12.6/13.4 dB** in every new case.
 No transistor dimensions, PDK capabilities or silicon power/area are inferred
 from the MATLAB BER alone. The paper's error targets are comparison targets;
-the Doctor still needs to approve the project's BER/FEC/payload requirements.
+the professor still needs to approve the project's BER/FEC/payload requirements.
 
 ## Main conclusion
 
@@ -55,9 +56,9 @@ Each lane alone has 51,508,800 tested bits and nominal BER upper95 5.816e-8.
 For the standard 256-QAM candidate, the worst individual confirmation
 lane/seed BER is 6.814e-6, exceeding the pooled BER and the comparison target.
 
-![Upgrade bottlenecks](C:/Users/Xps/Desktop/400Gbps_ADC/results/400G_verification/figures/400G_upgrade_bottlenecks.png)
+![Upgrade bottlenecks](../results/400G_verification/figures/400G_upgrade_bottlenecks.png)
 
-![Independent confirmation](C:/Users/Xps/Desktop/400Gbps_ADC/results/400G_verification/figures/400G_independent_confirmation.png)
+![Independent confirmation](../results/400G_verification/figures/400G_independent_confirmation.png)
 
 ## What has to change for the 64-QAM candidate
 
@@ -168,7 +169,7 @@ but does not eliminate the common input bandwidth or skew-calibration burden.
 Keep power/area/latency and supply-compatible 1.0/0.5 Vpp swings as explicit
 requirements, rather than assuming unchanged swings in a smaller process.
 
-## What to ask the Doctor to approve
+## What to ask the professor to approve
 
 1. Confirm **400 Gbps per lane**, and decide gross versus delivered payload.
 2. Approve a BER/SER acceptance criterion and an actual FEC code/rate.

@@ -1,4 +1,6 @@
-# Target-seeking update — 7 October 2026
+# Target-seeking update - 7 October 2026
+
+> Status, 10 October 2026: this document retains earlier experiments and assumptions. Use [current validation](validation.md), [project progress](project_progress.md), and [400G verification](400G_verification_for_doctor.md) for the latest confirmed numbers.
 
 ## Outcome
 
@@ -28,14 +30,14 @@ The 224 target therefore cannot be honestly claimed from the available inputs. T
 
 ## Reproduction scripts and data
 
-- `run_diagonal_channel_check.m` — full-length, three-seed paper-equation check.
-- `run_adc_input_full.m` — full-length, three-seed favorable noise-reference check.
-- `run_adc_clipping_grid.m` and `run_adc_input_best_clip_full.m` — clipping search and long confirmation.
-- `run_ieee_channel_adc_input.m` — public IEEE candidate sensitivity run.
-- `run_cp_phase_noise_sweep.m` — CP/rate sensitivity sweep.
-- `run_noise_threshold_full.m` and `run_noise_floor_full.m` — multi-seed noise budget sweeps.
-- `run_zero_noise_extended.m` — eight-seed zero-noise floor estimate.
-- `run_zero_noise_l2000.m` — matched-seed CHEST averaging check.
+- `run_diagonal_channel_check.m` - full-length, three-seed paper-equation check.
+- `run_adc_input_full.m` - full-length, three-seed favorable noise-reference check.
+- `run_adc_clipping_grid.m` and `run_adc_input_best_clip_full.m` - clipping search and long confirmation.
+- `run_ieee_channel_adc_input.m` - public IEEE candidate sensitivity run.
+- `run_cp_phase_noise_sweep.m` - CP/rate sensitivity sweep.
+- `run_noise_threshold_full.m` and `run_noise_floor_full.m` - multi-seed noise budget sweeps.
+- `run_zero_noise_extended.m` - eight-seed zero-noise floor estimate.
+- `run_zero_noise_l2000.m` - matched-seed CHEST averaging check.
 - Machine-readable outputs and MATLAB structs are in `results/target_reproduction/`.
 
 `cfg.channel.ofdm_diagonal=true` is an optional comparison path that implements the paper's independent-subcarrier equations. It assumes that the CP fully removes inter-block interference; it is not evidence that a physical channel with a longer impulse response is protected by an 8-sample CP. The default physical-convolution path remains unchanged.

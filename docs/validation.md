@@ -1,101 +1,57 @@
-# Validation
+# Current validation results
 
-> Historical report. The 2026-10-07 MATLAB audit found implementation and
-> configuration issues that invalidate the old claim that the full gap was
-> attributable to the channel. Use `phase1_findings.md` and `results/phase1/`
-> for current measurements and limitations.
+Updated 10 October 2026 using the saved MATLAB runs from 7 and 8 October. No new link simulation was run for this documentation update.
 
-This document reports what `main_224G.m` actually produced (a real run, not a hand-picked example), compares
-it against the paper's reported numbers, and states plainly what matches, what is approximate, and what
-cannot be reproduced given the information available. Per the project brief (Part 5/12): **we do not claim
-exact reproduction of the paper.**
+We keep three questions separate: the rate the framing carries, the errors counted in the model, and whether real hardware can meet the assumed budgets.
 
-Run configuration for the numbers below: `config_224G()` defaults (N_FFT=1024, N_CP=8, 64-QAM, 2000 data
-OFDM symbols, CHEST L=200 moving-average cycles), Octave 8.4 (a MATLAB-compatible open-source environment
-used here to verify the code executes correctly end-to-end; re-running in MATLAB will reproduce the same
-numbers since every random draw is seeded).
+## 224G: the rate matches, the error targets do not
 
-## TEST-by-TEST results
+| Measurement | Current L1000 confirmation | Paper reference |
+|---|---:|---:|
+| Gross rate per lane | 223.5625 Gb/s | 224 Gb/s, rounded |
+| SER with cancellation | 7.43173982e-5 | 1.4e-5 |
+| Pre-FEC BER with cancellation | 1.23862330e-5 | 2.4e-6 |
+| DAC / ADC clipping | 12.6 / 13.4 dB | 12.6 / 13.4 dB |
 
-| Test | Description | Measured | Paper reference |
-|---|---|---|---|
-| 1 | Ideal 64-QAM/OFDM link vs. AWGN theory | max \|log10(measured)-log10(theory)\| ≈ 0 (SER→0 at all tested SNR, matching theory to numerical precision) | n/a (sanity check only) |
-| 2 | OFDM + main channel only, no FEXT | SER = 0.000e+00 | n/a (sanity check only) |
-| 3 | 2x2 MIMO, FEXT present, **no** cancellation | SER = 4.407e-01 | **SER = 4e-1** ([FEXT] p.85) |
-| 4 | 2x2 MIMO, FEXT present, **with** cancellation (genie channel, no converter impairments) | SER = 0.000e+00 | n/a (paper's equivalent case includes impairments; ours isolates architecture) |
-| 5 | Full impairments + minimal (L=1) CHEST | SER = 2.472e-01, BER = 4.525e-02, EVM = 15.9% | n/a (paper does not report an L=1 case; included to show CHEST-noise sensitivity, cf. [FEXT] Fig. 9) |
-| 6 | **Full 224G baseline**: full impairments + converged CHEST (L=200) | SER = 1.386e-01, BER = 2.425e-02, EVM = 12.7% (naive/no-cancel comparison: SER = 4.729e-01) | SER (with cancel) = **1.4e-5**, SER (without) = **4e-1**, BER (with cancel) = **2.4e-6** |
+Seeds 31, 53, and 79 each used 5,600 data OFDM symbols per lane. Across two lanes, the pooled result is **1,276 bit errors in 103,017,600 bits** and **1,276 symbol errors in 17,169,600 QAM symbols**. The BER is about 5.16 times the paper comparison value; the SER is about 5.31 times higher.
 
-## What matches well
+Evidence: [confirmation CSV](../results/pulled_friend_exact/paper_clipping_confirmation.csv) and [full 224G notes](friend_channel_reproduction.md).
 
-- **TEST 3's SER without FEXT cancellation (4.41e-1) matches the paper's reported 4e-1 almost exactly**,
-  even though our channel is a hand-calibrated synthetic model, not the paper's measured one. This is a
-  strong architectural validation: with FEXT present and uncancelled, SER saturates near the "random guess"
-  region for both models, so this particular number is not very sensitive to the exact channel shape.
-- **The FEXT-cancellation math is exact** (verified with unit tests, see below): given the true channel
-  response, the 2x2 matrix-inversion equalizer recovers the transmitted symbols to machine precision (TEST
-  4, SER = 0 with a genie channel and no converter noise).
-- **The channel-estimation math (eqs. 7-12) is exact**: verified against synthetic ground truth to machine
-  precision (see development notes below).
-- **The OFDM modulate/demodulate round trip is exact** (max reconstruction error ≈ 8e-16, i.e. floating-point
-  noise only).
-- **Qualitative trends match the paper's description throughout**: FEXT cancellation dramatically reduces
-  SER relative to no cancellation (TEST 6: 0.139 vs. 0.473, a >3x improvement); high-frequency sub-channels
-  are the worst-affected (matching [FEXT] Fig. 10(d)'s description that "low-frequency sub-channels up to
-  k≈50 are practically not affected by FEXT, while higher frequency sub-channels clearly benefit from
-  cancellation").
+`main_224G` uses L200 rather than the confirmed L1000 window. Its recorded baseline BER is 1.23124592e-5 and SER is 7.38747554e-5. Increasing averaging alone did not establish a meaningful improvement across independent seeds.
 
-## What does NOT match numerically
+The imported main channel has about 22.41 dB loss at 40 GHz, close to the paper's 23 dB anchor. However, its retained FIR main-to-FEXT ratio is about 60.03 dB at 3.7 GHz, compared with the paper's roughly 28 dB. This is not the same coupling case. The current 224G script also adds 1.8 mV noise after VGA. Moving that noise before VGA in the controlled L200 check gives BER 1.38617091e-3 and SER 8.27250489e-3.
 
-**The full-baseline SER/BER (TEST 6) is roughly 4 orders of magnitude worse than the paper's reported
-value** (1.39e-1 vs. 1.4e-5 SER). This is the single most important limitation of this project and is
-explained, not hidden:
+For these reasons, the current model does not reproduce the complete paper result. Earlier statements attributing the entire mismatch to channel shape should not be used as a current conclusion.
 
-1. **The channel is not the paper's channel.** We only have two numeric anchor points (23 dB @ 40 GHz, 28 dB
-   ratio @ 3.7 GHz) from a plot; the paper's actual measured channel presumably has a shape across the full
-   37.625 GHz bandwidth that, combined with the stated de-emphasis law, balances quantization/thermal noise
-   across all 511 sub-channels well enough to hit 1.4e-5 overall SER. Our synthetic channel reaches ≈22 dB
-   loss at Nyquist; per-sub-channel SER analysis (available in `results_224G.mat`) shows the high-frequency
-   sub-channels (k > ~400) dominate the overall SER, exactly as [DSE] Sec. IV-B predicts happens when
-   power/channel loss is not perfectly balanced by the de-emphasis profile.
-2. **The de-emphasis law is fixed (from the paper), not re-optimized for our channel.** In the paper, the
-   -10.5 dB→0 dB de-emphasis law was presumably tuned (or is simply a good match) for the *actual* channel
-   used. Applying that same fixed law to a different channel shape does not necessarily reproduce the same
-   balanced-SNR outcome across sub-channels -- see `docs/open_questions.md`.
-3. **CHEST averaging window and data-symbol count** are both finite (L=200, 2000 symbols) versus what may
-   have been a much larger simulation run in the original paper (not stated).
+## 400G: independently confirmed model candidates
 
-We consider items (1)-(2) the fundamental, unavoidable consequence of not having the paper's exact channel
-data (explicitly acknowledged as unavailable in `specs/224G_paper_specs.md` Section 6) -- not a bug in the
-implementation.
+| Candidate | Bit errors / tested bits | Pooled BER | Pooled SER | Outcome against BER 2.4e-6 and SER 1.4e-5 |
+|---|---:|---:|---:|---|
+| 64-QAM, ideal 8-bit, L200 | 0 / 103,017,600 | 0 observed; upper95 2.908e-8 | 0 observed; upper95 1.745e-7 | Conditional nominal-bound pass |
+| 256-QAM, ideal 9-bit, L200 | 484 / 137,356,800 | 3.52366974e-6 | 2.81893579e-5 | Targets not met |
+| 256-QAM, lower noise/jitter | 381 / 137,356,800 | 2.77379788e-6 | 2.21903830e-5 | Targets not met |
+| 256-QAM, ideal 9-bit, L1000 | 483 / 137,356,800 | 3.51638943e-6 | 2.78981456e-5 | Targets not met |
 
-## Per-block correctness checks performed during development
+All rows represent three independent long runs at 400 Gb/s gross per lane. The primary confirmation seeds are 431, 457, and 479. The L1000 study uses 641, 673, and 701. The L1000 row has 479 symbol errors; bit and symbol error counts need not be identical.
 
-These are informal unit tests run against the code (not part of the automated test suite, but documented
-here since they underpin the "what matches" claims above):
+Evidence: [primary pooled results](../results/400G_verification/pooled.csv), [primary confirmations](../results/400G_verification/confirmation.csv), and [L1000 pooled results](../results/400G_verification/training_pooled.csv).
 
-- `qam_modulate` -> `qam_demodulate` round trip: 0 bit errors at infinite SNR.
-- `ofdm_modulate` -> `ofdm_demodulate` round trip: max error ≈ 8.5e-16.
-- `channel/minimum_phase_from_mag_db.m`: reconstructed FFT magnitude matches the target magnitude spectrum
-  to <0.02 dB with the default 64-tap truncation (verified at the Nyquist edge, the hardest point).
-- `mimo/fext_cancellation.m`: recovers synthetic X1/X2 exactly given the true H matrix (verified with random
-  complex H and X).
-- `rx/channel_estimation.m`: recovers synthetic H13/H23/H14/H24 exactly given noiseless pilot observations.
+The passing 64-QAM candidate uses FFT1024, CP8, 511 tones, 134.638 GS/s, ideal 8-bit DAC/ADC, a synthetic 5 dB-at-40 GHz channel, 0.3 mV noise before VGA, 22.282 fs independent RMS jitter per TX/RX process, and -3.5 to 0 dB loading. Clipping remains 12.6/13.4 dB; full scales remain 1.0/0.5 Vpp.
 
-## 400G sweep sanity
+The standard 256-QAM candidate uses 100.978 GS/s and ideal 9-bit converters with the same channel/noise/jitter budgets. Its lower-noise/jitter alternative uses 0.1 mV and 10 fs. The full conditions and sensitivities are in [the 400G report](400G_verification_for_doctor.md).
 
-All nine sweep axes in `experiments/experiment_400G_sweep.m` produce monotonic, physically-sensible trends
-(see `docs/open_questions.md` "400G sweep observations" and the actual figures under
-`results/400G/figures/`): BER increases with data rate/bandwidth, channel loss, RX noise, jitter, and
-modulation order; BER decreases with ADC/DAC resolution (saturating) and with a larger main-to-FEXT ratio.
-The one weak trend is **FFT size**, which shows almost no BER sensitivity in our model (see
-`docs/open_questions.md`) -- in contrast to [DSE]'s finding of a >10x BER improvement from N_FFT=256 to
-1024; our simplified fixed-N_CP, fixed-channel-tap-count model does not capture the CP/ISI trade-off with
-the same fidelity as [DSE]'s dedicated study.
+## What the confidence bounds mean
 
-## Bottom line for the supervisor meeting
+Zero counted errors gives a point estimate of zero. Under independent Bernoulli trials, the one-sided 95% upper bound is `1 - 0.05^(1/N)`, approximately `3/N`. This gives BER upper95 2.907981e-8 for 103,017,600 bits.
 
-The **architecture, math, and signal chain are implemented correctly and validated block-by-block**. The
-**absolute SER/BER numbers should be presented as "this configuration's numbers", not as a reproduction of
-the paper's 1.4e-5** -- the gap is fully attributable to the missing exact channel data, and is exactly the
-kind of gap the project brief (Part 12) asked us to surface rather than hide.
+Each 64-QAM lane separately has zero errors in 51,508,800 bits, giving a nominal BER bound of 5.816e-8. Both lanes have zero errors in every confirmation seed.
+
+These are nominal statistical bounds. OFDM decisions may be correlated, and training is shared across a run. The bounds do not quantify errors in the channel, converter, or jitter model. A hardware reliability claim needs physical evidence as well as counted decisions.
+
+## What has been checked and what remains
+
+`validate_phase1` previously passed rate arithmetic, QAM/OFDM recovery, shared gain behavior, independent jitter, and CHEST algebra checks. Those are functional checks of the model. They do not certify a converter circuit or a transistor process.
+
+The available friend channel ends at 50 GHz. The Bch2_7 channel ends at 67 GHz. Neither fully covers the 67.319 GHz Nyquist requirement of the 64-QAM candidate. We still need measured complex THRU/FEXT responses with frequency margin, real ADC/DAC behavior, clock and noise characterization, fixed-point DSP, and PVT verification.
+
+The earlier Octave validation report is preserved in [the historical record](history/2026-10-07_validation.md). Its numbers and reproduction claims are not the current results.

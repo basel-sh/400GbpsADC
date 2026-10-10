@@ -1,5 +1,13 @@
 # Simulation Flow
 
+For current commands and result folders, start with [the README](../README.md).
+`main_224G` now uses the imported friend channel and saves the suite under
+`results/pulled_friend_exact/`. The current 400G confirmation sequence is
+`run_400G_verification`, followed by the CP and training verification scripts.
+Those results are stored under `results/400G_verification/`.
+The older exploratory sweep remains available, but is not the current
+independent 400G confirmation. See [validation](validation.md) for the distinction.
+
 ## Signal chain (per lane, x2 for the 2x2 MIMO link)
 
 ```

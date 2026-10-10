@@ -1,5 +1,7 @@
 # Phase-one MATLAB findings - 7 October 2026
 
+> Status, 10 October 2026: this document retains earlier experiments and assumptions. Use [current validation](validation.md), [project progress](project_progress.md), and [400G verification](400G_verification_for_doctor.md) for the latest confirmed numbers.
+
 The 224G framing runs correctly, but the complete error-rate headline is **not
 reproduced** with the stated 1.8 mV input noise and the available channel model.
 A conditional 400G behavioral candidate achieves zero observed bit errors in

@@ -1,6 +1,7 @@
-# Pulled friend code: actual MATLAB run and bounded optimization
+# Current 224G readings and what we learned from the friend code
 
-Run date: 2026-10-07. MATLAB R2026b, base MATLAB.
+Run date: 7 October 2026, MATLAB R2026b, base MATLAB.
+Documentation reviewed 10 October 2026. The current fixed-clipping readings below remain the latest independent 224G confirmation; see [validation](validation.md) for the project-wide comparison.
 
 ## Current settings: paper clipping restored
 
@@ -73,7 +74,7 @@ Set that variable false or clear it to repeat the whole sweep.
 
 ## Historical readings before clipping restoration
 
-| Metric | Friend's pasted run | Current baseline | Confirmed alternative | Paper |
+| Metric | Friend's pasted run | Recorded L200 baseline | Historical 12.5 dB alternative | Paper |
 |---|---:|---:|---:|---:|
 | SER with cancellation | 2.603e-4 | 7.38747554e-5 | 5.29424098e-5 | 1.4e-5 |
 | SER without cancellation | 3.087e-4 | 1.08610568e-4 | 7.13470319e-5 | 4e-1 |

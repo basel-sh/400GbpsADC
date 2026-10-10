@@ -1,11 +1,11 @@
 PAGE 1
-IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS, II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
 81
 Far-End Crosstalk Cancellation With MIMO OFDM
 for >200 Gb/s ADC-Based Serial Links
 Gain Kim
 , Member, IEEE
-Abstract—This brief presents an area- and power-efﬁcient far-
+Abstract, This brief presents an area- and power-efﬁcient far-
 end crosstalk (FEXT) cancellation scheme with multi-input multi-
 output
 (MIMO)
@@ -27,7 +27,7 @@ out with per-sub-channel MIMO equalization, achieving an over-
 all symbol error rate (SER) of 1.4 × 10−5 at 224 Gb/s/lane for a
 channel having 23 dB loss at 40 GHz, while the SER is 4 × 10−1
 without FEXT cancellation.
-Index Terms—Serial link, wireline transceiver, ADC-based
+Index Terms, Serial link, wireline transceiver, ADC-based
 serial link, orthogonal frequency division multiplexing, OFDM,
 wireline communications, wireline receiver, far-end crosstalk,
 FEXT.
@@ -110,11 +110,11 @@ time-domain OFDM symbol by an inverse discrete Fourier
 transform (IDFT) engine. In the time domain, cyclic preﬁx
 1549-7747 c⃝2022 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
 See https://www.ieee.org/publications/rights/index.html for more information.
-Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply.
 
 PAGE 2
 82
-IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS, II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
 Fig. 1.
 Overall block diagram of the data-path of an OFDM TRX for a wireline serial link.
 Fig. 2.
@@ -168,7 +168,7 @@ frequency-domain QAM symbol (Y(k)) on each sub-channel
 is equalized to ˆX(k) by a single complex multiplier as
 ˆX(k) = Y(k) · H−1(k),
 (1)
-Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply.
 
 PAGE 3
 KIM: FAR-END CROSSTALK CANCELLATION WITH MIMO OFDM
@@ -305,11 +305,11 @@ Y(n=1)
 2,k
 = H14,kSk −H24,kSk,
 (8)
-Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply.
 
 PAGE 4
 84
-IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS—II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
+IEEE TRANSACTIONS ON CIRCUITS AND SYSTEMS, II: EXPRESS BRIEFS, VOL. 70, NO. 1, JANUARY 2023
 Fig. 6.
 Circuit implementation example of FDE for 2 × 2 MIMO FEXT
 cancellation and the unit FDE cell for each sub-channel k (inside the red
@@ -437,7 +437,7 @@ highlighted area by a dotted red rectangle in Fig. 8 that the
 FEXT frequency response is weak as compared to the THRU
 response at low-frequency, exhibiting about 28 dB of main-
 to-FEXT ratio at sub-channel k = 50 corresponding to the
-Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply.
 
 PAGE 5
 KIM: FAR-END CROSSTALK CANCELLATION WITH MIMO OFDM
@@ -536,7 +536,7 @@ Technol., vol. 27, no. 3, pp. 189–204, Feb. 2009.
 [16] G. Kim, “Design space exploration of single-lane OFDM-based serial
 links for high-speed wireline communications,” IEEE Open J. Circuits
 Syst., vol. 3, pp. 134–146, 2022.
-[17] “IEEE P802.3ck Task Force—Tools and Channels.”
+[17] “IEEE P802.3ck Task Force, Tools and Channels.”
 Accessed: 2019.
 [Online]. Available: http://www.ieee802.org/3/ck/public/tools/index.html
-Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Rajshahi University Of Engineering and Technology. Downloaded on September 25,2026 at 21:55:34 UTC from IEEE Xplore.  Restrictions apply.

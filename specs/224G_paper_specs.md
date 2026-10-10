@@ -1,11 +1,11 @@
-# 224 Gb/s Baseline — Parameter Extraction From the Reference Paper
+# 224 Gb/s Baseline - Parameter Extraction From the Reference Paper
 
 Primary reference (cited as **[FEXT]** below):
 G. Kim, "Far-End Crosstalk Cancellation With MIMO OFDM for >200 Gb/s ADC-Based Serial Links,"
 IEEE Trans. Circuits Syst. II, vol. 70, no. 1, pp. 81–85, Jan. 2023.
 
 Secondary reference (cited as **[DSE]** below, same author, provides supporting system-level modeling
-detail — FFT/CP/clipping/ENOB methodology — for the same 224 Gb/s design point):
+detail - FFT/CP/clipping/ENOB methodology - for the same 224 Gb/s design point):
 G. Kim, "Design Space Exploration of Single-Lane OFDM-Based Serial Links for High-Speed Wireline
 Communications," IEEE Open J. Circuits Syst., vol. 3, pp. 134–146, 2022.
 
@@ -59,7 +59,7 @@ Every row below is tagged:
 | TX/RX sampling jitter | 1 % UI, RMS, random | A | [FEXT] p.84, Sec. V, "1% UI root-mean-square (RMS) TX/RX sampling jitter" |
 | RX input random (thermal/AFE) noise | 1.8 mV RMS | A | [FEXT] p.84, Sec. V, "1.8 mV RMS RX input random noise" |
 | Noise injection point | Referred to the RX input (before VGA/ADC) | A | [FEXT] p.84, Sec. V wording ("RX input random noise"); [DSE] p.143 Sec. V "random noise RMS amplitude of 1.8 mV on the AFE" |
-| Quantization noise | Implicit from 7-bit DAC/ADC; not given a separate closed-form noise figure — modeled directly by quantizing the signal | B | derived from DAC/ADC resolution |
+| Quantization noise | Implicit from 7-bit DAC/ADC; not given a separate closed-form noise figure - modeled directly by quantizing the signal | B | derived from DAC/ADC resolution |
 | DAC/ADC quantization SNR (QSNR) concept | Frequency-dependent SNDR of DAC/ADC acknowledged qualitatively; no numeric SNDR-vs-frequency curve given | A (qualitative only) | [DSE] p.141, Sec. IV-B |
 
 ## 5. TX de-emphasis / power loading
@@ -79,7 +79,7 @@ Every row below is tagged:
 | Channel source | "Measured channel frequency response [17]" = IEEE P802.3ck Task Force public channel tool/S-parameter set | A | [FEXT] p.84–85, Sec. V, Fig. 8, ref. [17]; [DSE] Fig. 9, ref. [28] (same IEEE 802.3ck source, referred to there as "CH3") |
 | Main-channel loss (used in FEXT paper's headline result) | 23 dB at 40 GHz | A | [FEXT] Abstract, p.81 |
 | Main-to-FEXT ratio | ≈28 dB at sub-channel k = 50 (≈3.7 GHz) | A | [FEXT] p.84–85, Sec. V |
-| Exact S-parameter / transfer-function data | **NOT SPECIFIED IN REFERENCE PAPER** — the brief only shows a plot (Fig. 8) and cites an external, non-numeric source ([17], a web tools page); no table of the channel's frequency response is printed in the text | C | — |
+| Exact S-parameter / transfer-function data | **NOT SPECIFIED IN REFERENCE PAPER** - the brief only shows a plot (Fig. 8) and cites an external, non-numeric source ([17], a web tools page); no table of the channel's frequency response is printed in the text | C | Not provided |
 | MIMO configuration | 2×2 (two TX lanes, two RX lanes), a single FEXT aggressor (one victim + one aggressor lane) | A | [FEXT] p.83, Sec. III, Fig. 5 |
 | Channel matrix structure | H(k) = [[H13(k), H23(k)], [H14(k), H24(k)]], where H13/H24 are the two main (THRU) responses and H23/H14 are the two FEXT (crosstalk) responses | A | [FEXT] eqs. (2), (4), p.83 |
 
@@ -106,7 +106,7 @@ the paper's exact measured channel.
 |---|---|---|---|
 | Single-lane FDE | X̂(k) = Y(k)·H⁻¹(k), one complex multiplier/sub-channel | A | [FEXT] eq. (1), p.82–83 |
 | 2×2 MIMO FDE | [X̂1,k; X̂2,k] = Pk·[Y1,k; Y2,k], Pk = H_k⁻¹ (closed-form 2×2 inverse, eq. (6)) | A | [FEXT] eqs. (3)–(6), p.83 |
-| Equalizer type | Zero-forcing (direct matrix inverse); no MMSE or other regularized equalizer is described | A (by omission — no alternative is presented) | [FEXT] Sec. III |
+| Equalizer type | Zero-forcing (direct matrix inverse); no MMSE or other regularized equalizer is described | A (by omission - no alternative is presented) | [FEXT] Sec. III |
 
 ## 9. Reported results (used for validation targets, not reproduction targets)
 
@@ -120,20 +120,20 @@ the paper's exact measured channel.
 
 ## 10. Explicitly NOT specified in either paper (must be modeled as configurable assumptions)
 
-- Exact channel S-parameters / transfer function tables (only plots + external tool reference) — **(C)**
+- Exact channel S-parameters / transfer function tables (only plots + external tool reference) - **(C)**
 - Semiconductor process node for the 224 Gb/s system-level study (no node is stated for the architectural/behavioral
-  model in either paper) — **(C)**. Do not assume 22 nm for the paper's own study; 22 nm is only the *candidate future
+  model in either paper) - **(C)**. Do not assume 22 nm for the paper's own study; 22 nm is only the *candidate future
   implementation node* the user has access to (see `docs/22nm_mapping.md`).
-- Random-number-generator seed / exact bit sequence used in the paper's own simulations — **(C)**
+- Random-number-generator seed / exact bit sequence used in the paper's own simulations - **(C)**
 - Number of OFDM symbols for FEXT headline BER/SER is not stated; DSE explicitly simulates 48 million input bits (p.143). These are separate studies.
-- Exact CHEST pilot sequence values S_k beyond "known QAM values with equal magnitude, opposite/same polarity" — **(C)**
+- Exact CHEST pilot sequence values S_k beyond "known QAM values with equal magnitude, opposite/same polarity" - **(C)**
 - FEC scheme/code rate (FEC is mentioned as present in the general architecture, Fig. 1, but no FEC parameters are
-  given; all BER/SER figures reported are **pre-FEC**) — **(C)**
+  given; all BER/SER figures reported are **pre-FEC**) - **(C)**
 - Explicit AWGN vs. colored-noise spectral shape for the "1.8 mV RMS RX input random noise" (paper only gives an RMS
-  amplitude) — assumed white/Gaussian — **(C)**
+  amplitude) - assumed white/Gaussian - **(C)**
 - Whether jitter is modeled as pure sampling-instant jitter only, or also includes coupled TX/RX independent jitter
-  sources — assumed independent identically distributed (i.i.d.) Gaussian jitter with the given RMS UI, applied
-  independently at TX (DAC) and RX (ADC) — **(C)**
+  sources - assumed independent identically distributed (i.i.d.) Gaussian jitter with the given RMS UI, applied
+  independently at TX (DAC) and RX (ADC) - **(C)**
 
 See `docs/assumptions.md` and `docs/open_questions.md` for the full, non-duplicated list with implementation
 implications.
