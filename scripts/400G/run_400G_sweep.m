@@ -5,19 +5,21 @@
 %and saves all figures under results/400G/figures/.
 %
 % Usage:
-%   >> run_400G_sweep
+%   >> run(fullfile('scripts','400G','run_400G_sweep.m'))
 %
 % NOTE: per Part 8 of the project brief, this framework is for BOTTLENECK
 % IDENTIFICATION -- it does NOT claim that 400 Gb/s/lane is achieved, and it
 % does NOT select a "best" configuration. See docs/validation.md.
 
 close all;
-proj_root = fileparts(mfilename('fullpath'));
+proj_root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(genpath(proj_root));
 
 fprintf('=== 400 Gb/s/lane scaling investigation (parameter sweep) ===\n\n');
 
 base_cfg = config_400G();
+base_cfg.results_dir = fullfile(proj_root, 'results', '400G');
+base_cfg.fig_dir = fullfile(base_cfg.results_dir, 'figures');
 if ~exist(base_cfg.results_dir, 'dir'), mkdir(base_cfg.results_dir); end
 if ~exist(base_cfg.fig_dir, 'dir'), mkdir(base_cfg.fig_dir); end
 

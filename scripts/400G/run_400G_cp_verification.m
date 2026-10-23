@@ -1,5 +1,5 @@
 % Test whether longer CP removes the 256-QAM floor, retaining 400 Gb/s/lane.
-root=fileparts(mfilename('fullpath'));addpath(genpath(root));
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));addpath(genpath(root));
 out=fullfile(root,'results','400G_verification');
 diary(fullfile(out,'cp_console.log'));clean=onCleanup(@()diary('off'));
 rows=struct([]);cs={};

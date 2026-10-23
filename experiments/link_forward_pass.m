@@ -12,7 +12,6 @@ function [Y1, Y2, diag] = link_forward_pass(X1, X2, cfg, opts)
 %   opts   - struct, all fields optional:
 %       .enable_fext        (default true)  - couple the two lanes via the
 %                            FEXT channel
-%       .enable_fext_channel_only_not_used  (reserved, unused placeholder)
 %       .apply_impairments  (default true)  - DAC/ADC clipping+quant+jitter
 %                            and RX input noise; false = ideal analog link
 %                            (still passes through the linear channel)

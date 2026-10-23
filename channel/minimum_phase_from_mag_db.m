@@ -19,8 +19,8 @@ function h = minimum_phase_from_mag_db(mag_dB, N, num_taps)
 %              reconstruction (truncates the (decaying) impulse response)
 %
 % Output:
-%   h - num_taps x 1 real causal FIR impulse response, normalized so that
-%       its DC gain equals the DC magnitude implied by mag_dB(1)
+%   h - num_taps x 1 real causal FIR impulse response. Truncation can change
+%       its DC gain; there is no post-truncation normalization.
 
 mag_dB = mag_dB(:).';
 half = numel(mag_dB); % = N/2+1

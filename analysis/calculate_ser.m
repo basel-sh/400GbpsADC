@@ -9,7 +9,10 @@ avg_energy = 2*(M-1)/3;
 idx_tx = nearest_index(tx_syms, sqrtM, avg_energy);
 idx_rx = nearest_index(rx_syms, sqrtM, avg_energy);
 
-n = min(numel(idx_tx), numel(idx_rx));
+if isempty(idx_tx) || numel(idx_tx) ~= numel(idx_rx)
+    error('calculate_ser:alignment', 'Symbol vectors must be nonempty and have equal lengths.');
+end
+n = numel(idx_tx);
 num_errors = sum(idx_tx(1:n) ~= idx_rx(1:n));
 ser = num_errors / n;
 end

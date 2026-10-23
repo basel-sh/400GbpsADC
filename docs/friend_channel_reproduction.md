@@ -6,7 +6,7 @@ Documentation reviewed 10 October 2026. The current fixed-clipping readings belo
 ## Current settings: paper clipping restored
 
 At the user's request, DAC/ADC clipping is fixed at **12.6/13.4 dB**.
-`config_224G` and `main_224G` already used these values. The optimization
+`config_224G` and `main_224` already used these values. The optimization
 runner now also enforces them, removes the ADC clipping sweep, and excludes
 saved alternatives with different clipping settings when resuming.
 Only CHEST averaging is varied. The selected averaging window is L=1000.
@@ -29,7 +29,7 @@ The earlier 12.5 dB candidate below is historical and is no longer the current
 configuration. Fixing clipping does not resolve the channel/noise mismatch
 with the paper discussed below.
 
-The full `main_224G` suite ran with the THRU/FEXT1 files named in the pulled
+The full `main_224` suite ran with the THRU/FEXT1 files named in the pulled
 script. The absent D: drive path was replaced with a repository-local path.
 The measured readings do **not** reproduce the friend's pasted numbers.
 This is the current merged workspace, including existing calibration, training
@@ -58,8 +58,8 @@ software/configuration baseline to the friend's run.
 From the project root in MATLAB:
 
 ```matlab
-main_224G
-run_friend_channel_optimization
+main_224
+run(fullfile('scripts', '224G', 'run_friend_channel_optimization.m'))
 ```
 
 The optimization script writes CSV rows, a MAT file and a log. To repeat
@@ -67,7 +67,7 @@ only independent confirmations of the saved best candidate:
 
 ```matlab
 friend_resume_confirmation = true;
-run_friend_channel_optimization
+run(fullfile('scripts', '224G', 'run_friend_channel_optimization.m'))
 ```
 
 Set that variable false or clear it to repeat the whole sweep.

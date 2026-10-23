@@ -1,10 +1,10 @@
-%MAIN_224G  Single entry point: runs the complete 224 Gb/s MIMO-OFDM
+%MAIN_224  Single entry point: runs the complete 224 Gb/s MIMO-OFDM
 %baseline validation suite (TESTs 1-6), saves all figures under
 %results/pulled_friend_exact/figures/, and prints a summary comparing measured results to
 %the paper's reported values.
 %
 % Usage (from the project root, i.e. this file's folder):
-%   >> main_224G
+%   >> main_224
 %
 % Requires: base MATLAB only (no toolboxes) -- see README.md.
 
@@ -33,7 +33,7 @@ if ~exist(cfg.fig_dir, 'dir'), mkdir(cfg.fig_dir); end
 
 t_start = tic;
 
-fprintf('--- TEST 1: Ideal QAM/OFDM link ---\n');
+fprintf('--- TEST 1: Ideal QAM link ---\n');
 res1 = experiment_ideal_channel(cfg);
 
 fprintf('\n--- TESTS 2-4: channel / MIMO-FEXT (genie channel, no impairments) ---\n');

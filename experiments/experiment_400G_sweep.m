@@ -181,7 +181,7 @@ function r = run_scaled_test(cfg)
 %whenever the baseline default already exceeds it, otherwise left as-is).
 % ASSUMPTION [C]: this is a performance/precision trade-off for the sweep
 % only -- re-run any individual point with the full config_400G() defaults
-% (or main_224G.m-style settings) for a precise, presentation-grade number.
+% (or main_224.m-style settings) for a precise, presentation-grade number.
 % See docs/assumptions.md.
 cfg.sim.num_ofdm_symbols = min(cfg.sim.num_ofdm_symbols, 100);
 cfg.chest.L_moving_avg = min(cfg.chest.L_moving_avg, 120);

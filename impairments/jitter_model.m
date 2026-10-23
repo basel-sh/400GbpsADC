@@ -16,8 +16,8 @@ function x_jittered = jitter_model(x, fs, rms_UI, seed_offset, method)
 %   x           - N x M matrix, each column a signal sampled at fs (Hz)
 %   fs          - nominal sampling rate (Hz)
 %   rms_UI      - RMS jitter as a fraction of one unit interval (e.g. 0.01)
-%   seed_offset - integer added to the current rng state offset for
-%                 reproducibility across calls (optional, default 0)
+%   seed_offset - deterministic seed base (optional, default 0)
+%   method      - 'spline' reconstruction or first-order 'spectral_linear'
 %
 % Output:
 %   x_jittered - same size as x, resampled at jittered time instants
@@ -45,8 +45,7 @@ for m = 1:M
     dt = sigma_t * randn(N, 1) / UI; % in samples
     t_jit = t_nominal + dt;
     % Cubic spline interpolation of the (band-limited-ish) OFDM waveform
-    % at the jittered sample instants. Edge samples are held (extrap 'nearest'
-    % analogue) to avoid edge artifacts on the short block.
+    % at the jittered sample instants. The spline branch extrapolates at edges.
     if strcmp(method,'spectral_linear')
         % First-order bandlimited timing perturbation, x(t+dt)=x+dt*x'.
         % Nyquist derivative is set to zero for a real sampled waveform.

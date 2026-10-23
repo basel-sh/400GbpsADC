@@ -3,13 +3,12 @@ function [x_q, meta] = quantization_model(x, bits, full_scale)
 %
 %   x_q = QUANTIZATION_MODEL(x, bits, full_scale) quantizes x (assumed
 %   already clipped to +/- full_scale) into 2^bits uniform levels spanning
-%   [-full_scale, full_scale], modeling the DAC/ADC's finite resolution
+%   [-full_scale, full_scale-lsb], modeling the DAC/ADC's finite resolution
 %   (cfg.dac.bits / cfg.adc.bits, [A] 7-bit for the 224G baseline).
 %
 % Inputs:
 %   x          - real signal, already within [-full_scale, full_scale]
-%   bits       - resolution in bits (effective number of bits, ENOB, for
-%                sweep studies)
+%   bits       - integer ideal quantizer resolution; this is not measured ENOB
 %   full_scale - one-sided full-scale amplitude (same units as x)
 %
 % Outputs:

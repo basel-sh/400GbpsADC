@@ -17,7 +17,7 @@ Seeds 31, 53, and 79 each used 5,600 data OFDM symbols per lane. Across two lane
 
 Evidence: [confirmation CSV](../results/pulled_friend_exact/paper_clipping_confirmation.csv) and [full 224G notes](friend_channel_reproduction.md).
 
-`main_224G` uses L200 rather than the confirmed L1000 window. Its recorded baseline BER is 1.23124592e-5 and SER is 7.38747554e-5. Increasing averaging alone did not establish a meaningful improvement across independent seeds.
+`main_224` uses L200 rather than the confirmed L1000 window. Its recorded baseline BER is 1.23124592e-5 and SER is 7.38747554e-5. Increasing averaging alone did not establish a meaningful improvement across independent seeds.
 
 The imported main channel has about 22.41 dB loss at 40 GHz, close to the paper's 23 dB anchor. However, its retained FIR main-to-FEXT ratio is about 60.03 dB at 3.7 GHz, compared with the paper's roughly 28 dB. This is not the same coupling case. The current 224G script also adds 1.8 mV noise after VGA. Moving that noise before VGA in the controlled L200 check gives BER 1.38617091e-3 and SER 8.27250489e-3.
 

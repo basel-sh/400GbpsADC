@@ -1,6 +1,6 @@
 % Reproducible comparison and bounded optimization of the pulled channel.
 % Paper DAC/ADC clipping is fixed at 12.6/13.4 dB; optimize CHEST only.
-root=fileparts(mfilename('fullpath')); addpath(genpath(root));
+root=fileparts(fileparts(fileparts(mfilename('fullpath')))); addpath(genpath(root));
 out=fullfile(root,'results','pulled_friend_exact');
 if ~exist(out,'dir'),mkdir(out);end
 diary(fullfile(out,'paper_clipping_optimization.log')); cleanup=onCleanup(@()diary('off'));

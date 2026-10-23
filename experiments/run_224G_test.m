@@ -3,7 +3,7 @@ function result = run_224G_test(cfg, test_opts)
 %QAM-modulates two independent lanes, estimates the MIMO channel via CHEST
 %pilots through the actual link, equalizes the data symbols, demodulates,
 %and reports BER/SER/EVM plus diagnostic signals for plotting. This is the
-%shared engine behind experiments/experiment_*.m (TESTs 1-6) and main_224G.m.
+%shared engine behind experiments/experiment_*.m (TESTs 1-6) and main_224.m.
 %
 % Inputs:
 %   cfg       - config struct (config_224G / config_400G)
@@ -36,6 +36,7 @@ function result = run_224G_test(cfg, test_opts)
 %   ber, ser, evm_percent, ber_no_fext_cancel (naive-FDE reference SER for
 %   comparison), tx_syms1/2, rx_syms1/2 (equalized), H13/H23/H14/H24
 %   (channel estimate used), ser_per_subchannel (N_used x 1), chest_diag
+%   Channel bypass with impairments still uses pilots to capture DAC/VGA gain.
 
 if nargin < 2, test_opts = struct(); end
 o = default_opts(test_opts);
@@ -50,12 +51,12 @@ if o.use_genie_channel && o.apply_impairments
          'impairments are enabled.']);
 end
 
-Nused = cfg.ofdm.N_used;
-bps = cfg.mod.bits_per_sym;
-Nsym = cfg.sim.num_ofdm_symbols;
-M = cfg.mod.order;
+Nused = cfg.ofdm.N_used; % 511
+bps = cfg.mod.bits_per_sym; % 8
+Nsym = cfg.sim.num_ofdm_symbols; % 2000
+M = cfg.mod.order; % 64
 
-nbits_per_lane = Nused * bps * Nsym;
+nbits_per_lane = Nused * bps * Nsym; % 511 tones/block × 6 bits/tone × 2000 blocks = 6,132,000 bits per lane
 
 bits1 = generate_bits(nbits_per_lane, cfg.sim.rng_seed + o.seed_offset*2 + 1);
 bits2 = generate_bits(nbits_per_lane, cfg.sim.rng_seed + o.seed_offset*2 + 2);
@@ -81,11 +82,8 @@ chest_diag = struct();
 % branches below must therefore fold in the same known de-emphasis gain
 % so they are equalizing the same effective channel a real CHEST would see.
 deemph_gain = deemphasis_gain_vector(cfg);
-if ~o.enable_channel
-    % No physical channel applied in link_forward_pass -> the "genie"
-    % channel the equalizer should assume is just the de-emphasis gain
-    % (no channel attenuation, no crosstalk), matching TEST 1's ideal-link
-    % intent.
+if ~o.enable_channel && ~o.apply_impairments
+    % No physical channel or converter effects: only known TX loading remains.
     H13 = deemph_gain; H24 = deemph_gain;
     H23 = zeros(Nused,1); H14 = zeros(Nused,1);
 elseif o.use_genie_channel

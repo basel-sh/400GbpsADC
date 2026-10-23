@@ -1,7 +1,7 @@
 # Simulation Flow
 
 For current commands and result folders, start with [the README](../README.md).
-`main_224G` now uses the imported friend channel and saves the suite under
+`main_224` now uses the imported friend channel and saves the suite under
 `results/pulled_friend_exact/`. The current 400G confirmation sequence is
 `run_400G_verification`, followed by the CP and training verification scripts.
 Those results are stored under `results/400G_verification/`.
@@ -47,15 +47,23 @@ the channel estimate correctly absorb de-emphasis, VGA gain, and channel effects
 - `experiments/experiment_224G.m` -- TESTS 5-6 (full impairments, minimal vs. converged CHEST) + headline
   figures for the supervisor meeting.
 - `experiments/experiment_400G_sweep.m` -- the parameterized 400G scaling investigation (Part 7-8).
-- `main_224G.m` -- runs TESTS 1-6 in order and saves all results/figures.
-- `run_400G_sweep.m` -- runs the full 400G parameter sweep and saves all results/figures.
+- `main_224.m` -- runs TESTS 1-6 in order and saves all results/figures.
+- `scripts/400G/run_400G_verification.m` -- primary 400G screening and independent confirmations.
+- `scripts/400G/run_400G_cp_verification.m` -- 400G cyclic-prefix sensitivity and confirmation.
+- `scripts/400G/run_400G_training_verification.m` -- 400G training-averaging confirmation.
+- `scripts/400G/run_400G_sweep.m` -- exploratory 400G parameter sweep and figures.
+- `scripts/224G/run_friend_channel_optimization.m` -- fixed-clipping 224G confirmation study.
+- `tests/validate_phase1.m` -- functional checks, also called by the 400G verification.
+
+The project root contains only `main_224.m` as a MATLAB script. Earlier
+diagnostic launchers were retired; existing historical result files remain.
 
 ## Configuration
 
-All numeric parameters live in `config/config_224G.m` (paper-faithful baseline) and `config/config_400G.m`
-(builds on the 224G baseline, overriding only what's needed for a target data rate / sweep axis). No
-function outside `config/` hard-codes a numeric parameter -- every block receives its parameters through
-the `cfg` struct.
+Default parameters live in `config/config_224G.m` and `config/config_400G.m`.
+Experiment runners explicitly override settings for individual investigations.
+Processing blocks receive these settings through `cfg`; inspect the entry
+script as well as the configuration when identifying the conditions of a run.
 
 ## Reproducibility
 

@@ -111,19 +111,14 @@ Pilot and FEC overhead must be budgeted to distinguish 400G gross from payload.
 See `400G_approval_plan.md` for the decision package and acceptance gates, and
 `paper_coverage.md` for the complete disclosed-detail ledger and missing data.
 
-## Reproduce these results
+## Historical reproduction notes
 
-```matlab
-validate_phase1
-run_phase1_audit
-run_phase1_requirements
-run_phase1_clipping
-run_phase1_robustness
-```
-
-Run `analysis/build_phase1_report.py` using Python with matplotlib after the
-MATLAB scripts. Configurations and trials are saved next to the CSVs. The
-measured-channel conversion is documented in `paper_coverage.md`.
+The phase-one investigation launchers were retired during project cleanup on
+24 October 2026. Their saved CSVs and configurations remain under
+`results/phase1/`. `analysis/build_phase1_report.py` can rebuild this historical
+report from those saved outputs; it does not rerun the retired experiments.
+Use the README for current 224G/400G commands and `tests/validate_phase1.m`
+for functional checks. Channel conversion is documented in `paper_coverage.md`.
 
 ![Long-run and noise evidence](../results/phase1/phase1_evidence.png)
 

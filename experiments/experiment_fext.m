@@ -6,7 +6,7 @@ function results = experiment_fext(cfg)
 %   TEST 4: 2x2 MIMO WITH FEXT cancellation (full matrix-inverse FDE)
 %
 % All three use the GENIE (oracle) channel response -- i.e. equalization
-% uses the exact synthetic channel, not a pilot-based CHEST estimate -- and
+% uses the known selected channel model, not a pilot-based CHEST estimate -- and
 % NO DAC/ADC impairments, so that the comparison isolates the effect of the
 % channel/FEXT/equalizer architecture alone. CHEST estimation error and
 % converter impairments are added on top in experiment_224G.m (TESTS 5-6).
@@ -30,6 +30,14 @@ r4 = run_224G_test(cfg, opts4);
 fprintf('[TEST 2] OFDM + main channel only:            SER = %.3e, BER = %.3e\n', r2.ser, r2.ber);
 fprintf('[TEST 3] 2x2 MIMO, FEXT present, NO cancel:    SER = %.3e, BER = %.3e\n', r3.ser, r3.ber);
 fprintf('[TEST 4] 2x2 MIMO, FEXT present, WITH cancel:  SER = %.3e, BER = %.3e\n', r4.ser, r4.ber);
+% Error counts distinguish zero observations from rounding; EVM shows
+% residual distortion even when every nearest-point decision is correct.
+test_runs = {r2, r3, r4};
+for j = 1:numel(test_runs)
+    r = test_runs{j};
+    fprintf('         TEST %d: bit errors %d/%d, symbol errors %d/%d, EVM %.3f%%\n', ...
+        j+1, r.bit_errors, r.num_bits, r.symbol_errors, r.num_qam_symbols, r.evm_percent);
+end
 
 % Constellations before/after cancellation (Fig. 10(a)-(c) style): pick a
 % low-, mid-, and high-frequency sub-channel

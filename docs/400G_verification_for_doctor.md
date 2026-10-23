@@ -191,9 +191,9 @@ phase is to verify those requirements against actual circuit/process data."**
 From the project root:
 
 ```matlab
-run_400G_verification
-run_400G_cp_verification
-run_400G_training_verification
+run(fullfile('scripts', '400G', 'run_400G_verification.m'))
+run(fullfile('scripts', '400G', 'run_400G_cp_verification.m'))
+run(fullfile('scripts', '400G', 'run_400G_training_verification.m'))
 plot_400G_verification
 ```
 

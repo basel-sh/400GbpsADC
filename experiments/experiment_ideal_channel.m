@@ -10,17 +10,17 @@ function result = experiment_ideal_channel(cfg)
 % This does NOT exercise the physical channel/DAC/ADC models -- see
 % experiment_fext.m and experiment_224G.m for those.
 
-M = cfg.mod.order;
-sqrtM = sqrt(M);
-Nused = cfg.ofdm.N_used;
-Nsym = cfg.sim.num_ofdm_symbols;
-bps = cfg.mod.bits_per_sym;
+M = cfg.mod.order; %64
+sqrtM = sqrt(M); %8
+Nused = cfg.ofdm.N_used; %511
+Nsym = cfg.sim.num_ofdm_symbols; %2000
+bps = cfg.mod.bits_per_sym; %6
 
-nbits = Nused * bps * Nsym;
+nbits = Nused * bps * Nsym; %6,132,000 bits
 bits = generate_bits(nbits, cfg.sim.rng_seed + 9001);
-tx_syms = qam_modulate(bits, M);
+tx_syms = qam_modulate(bits, M); % 1,022,000 symbols
 
-esn0_dB_range = cfg.sim.snr_sweep_dB;
+esn0_dB_range = cfg.sim.snr_sweep_dB; % Size of 11 from 10 to 30
 ser_meas = zeros(size(esn0_dB_range));
 ber_meas = zeros(size(esn0_dB_range));
 ser_theory = zeros(size(esn0_dB_range));
@@ -51,7 +51,16 @@ plot_results(esn0_dB_range, {ser_meas, ser_theory}, ...
     sprintf('TEST 1: Ideal %d-QAM link vs. AWGN theory', M), ...
     fullfile(fig_dir, 'test1_ideal_ser_vs_snr.png'));
 
-fprintf('[TEST 1] Ideal link: max |measured-theory| SER (log10) = %.3f decades\n', ...
-    max(abs(log10(max(ser_meas,eps)) - log10(max(ser_theory,eps)))));
+% A zero observed rate is not eps or a measured probability of zero.
+% Compare rates directly rather than reporting an artificial log10(eps) gap.
+fprintf('[TEST 1] Ideal link: max absolute |measured-theory| SER = %.3e\n', ...
+    max(abs(ser_meas - ser_theory)));
+if any(ser_meas == 0)
+    n_qam = numel(tx_syms);
+    upper95 = -expm1(log(0.05)/n_qam);
+    fprintf(['         %d/%d SNR points had 0 errors out of %d symbols each; ', ...
+        'nominal one-sided 95%% SER upper bound = %.3e (independent trials).\n'], ...
+        sum(ser_meas == 0), numel(ser_meas), n_qam, upper95);
+end
 
 end

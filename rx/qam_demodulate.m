@@ -1,6 +1,6 @@
 function bits_hat = qam_demodulate(symbols, M)
 %QAM_DEMODULATE  Inverse of tx/qam_modulate.m: nearest-neighbor slicing on a
-%square Gray-coded M-QAM constellation, followed by Gray-to-binary decoding.
+%square Gray-coded M-QAM constellation, followed by binary-index-to-Gray labels.
 %
 % Inputs:
 %   symbols - N x 1 complex received (equalized) QAM symbols, expected to be

@@ -1,5 +1,11 @@
 # 22 nm Technology Mapping (System-Level to Future Implementation)
 
+**23 October 2026 update:** the team has access only to a 22 nm process in
+Cadence Virtuoso. Treat 22 nm as the available-node constraint, not an optional
+future node choice. No PDK models, transistor schematics, standard-cell timing
+libraries or tool-license inventory were supplied in this workspace, so the
+process-specific circuit and digital implementation claims remain unverified.
+
 **Important distinction, per the project brief (Part 9):** the reference papers ([FEXT], [DSE]) present a
 **system-level, behavioral/architectural** study. Neither paper states that its 224 Gb/s MIMO-OFDM link was
 implemented, or is intended to be implemented, in a 22 nm process -- no semiconductor technology node is
@@ -22,7 +28,7 @@ layout-level, or PDK-specific information, and none is invented here.
 | VGA | `rx/adc_model.m`: ideal automatic gain to ADC full-scale | Achievable gain range, bandwidth, noise contribution of a 22 nm VGA |
 | DSP (FFT/IFFT, CP) | `tx/ofdm_modulate.m`, `rx/ofdm_demodulate.m` (functional, not cycle-accurate) | Partially-serial FFT architecture area/power estimation per [DSE] Sec. III (complex multiplier counts, KFFT sizing, CKDSP) -- [DSE] eq. (3) gives the multiplier-count formula that WOULD be the starting point for a 22 nm area/power estimate, but no 22 nm standard-cell/library numbers exist in either paper or in this project |
 | MIMO equalizer (FDE) | `mimo/fext_cancellation.m`, `mimo/mimo_fde.m` (functional) | [FEXT] Fig. 6/Table I describe the circuit-level structure (one extra complex multiplier per sub-channel per aggressor) -- translating that to 22 nm area/power requires a 22 nm multiplier/adder library, which is not available to this project |
-| Clocking | Not modeled | Clock distribution, jitter budget allocation between clock generation and other blocks in 22 nm -- our jitter model (`impairments/jitter_model.m`) only takes a single end-to-end RMS jitter number as an INPUT assumption, it does not derive one from a clocking architecture |
+| Clocking | Behavioral TX/RX sampling-time perturbations; no clock circuit | Clock distribution, jitter budget allocation between generation and sampling in 22 nm. `impairments/jitter_model.m` takes an assumed RMS timing budget for independently seeded TX/RX processes; it does not derive that budget from a clock architecture |
 
 ## What information is needed from the 22 nm PDK before any implementation-level work can start
 

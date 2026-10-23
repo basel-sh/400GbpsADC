@@ -29,7 +29,7 @@ The current 224G confirmation uses fixed DAC/ADC clipping of **12.6/13.4 dB**, C
 | Pre-FEC BER with cancellation | 1.23862330e-5 | 2.4e-6 | About 5.16 times higher |
 | DAC / ADC clipping | 12.6 / 13.4 dB | 12.6 / 13.4 dB | Kept fixed |
 
-These are the independent L1000 confirmation numbers. `main_224G` runs a different L200 baseline, so it will not print this exact row. The imported channel has weaker FEXT than the paper's plotted case, and the current 224G entry script places noise after VGA. The 400G verification uses noise before VGA. The readings therefore cannot establish a like-for-like paper reproduction or isolate a single cause of improvement between 224G and 400G.
+These are the independent L1000 confirmation numbers. `main_224` runs a different L200 baseline, so it will not print this exact row. The imported channel has weaker FEXT than the paper's plotted case, and the current 224G entry script places noise after VGA. The 400G verification uses noise before VGA. The readings therefore cannot establish a like-for-like paper reproduction or isolate a single cause of improvement between 224G and 400G.
 
 Source: [224G run and reproduction notes](docs/friend_channel_reproduction.md), including the saved confirmation CSV.
 
@@ -84,35 +84,49 @@ The project target is per lane. The error counts above pool two modeled lanes, w
 
 ## Run the project in MATLAB
 
+The project root contains one MATLAB entry point: `main_224.m` (renamed from
+`main_224G.m`). The current launchers and checks are organized as follows:
+
+```text
+main_224.m                   224G baseline, Tests 1-6
+scripts/224G/                independent 224G confirmation/optimization
+scripts/400G/                400G verification, CP/training studies and sweep
+tests/                       functional validation checks
+```
+
+The 19 older noise/clipping/channel-search launchers were retired during
+cleanup on 24 October 2026. Their existing results and historical notes remain
+as evidence; those launchers are no longer part of the working source tree.
+
 Use the project root as MATLAB's current folder. The communication model uses base MATLAB, with custom QAM modulation and demodulation. The current saved verification runs used MATLAB R2026b.
 
 Start with the functional checks:
 
 ```matlab
-validate_phase1
+run(fullfile('tests', 'validate_phase1.m'))
 ```
 
 Run the current 224G suite, then the fixed-clipping optimization and confirmation:
 
 ```matlab
-main_224G
-run_friend_channel_optimization
+main_224
+run(fullfile('scripts', '224G', 'run_friend_channel_optimization.m'))
 ```
 
 If you already have the optimization result and only want to repeat its independent confirmations:
 
 ```matlab
 friend_resume_confirmation = true;
-run_friend_channel_optimization
+run(fullfile('scripts', '224G', 'run_friend_channel_optimization.m'))
 clear friend_resume_confirmation
 ```
 
 For the current 400G investigation, run these sequentially:
 
 ```matlab
-run_400G_verification
-run_400G_cp_verification
-run_400G_training_verification
+run(fullfile('scripts', '400G', 'run_400G_verification.m'))
+run(fullfile('scripts', '400G', 'run_400G_cp_verification.m'))
+run(fullfile('scripts', '400G', 'run_400G_training_verification.m'))
 plot_400G_verification
 ```
 
@@ -160,4 +174,4 @@ G. Kim, "Far-End Crosstalk Cancellation With MIMO OFDM for >200 Gb/s ADC-Based S
 
 G. Kim, "Design Space Exploration of Single-Lane OFDM-Based Serial Links for High-Speed Wireline Communications," IEEE Open Journal of Circuits and Systems, vol. 3, pp. 134-146, 2022.
 
-The source PDFs are in the project root. Their specifications remain the reference for the 224G study; the proposed 400G budgets are our design exploration.
+The source PDFs are in `docs/`. Their specifications remain the reference for the 224G study; the proposed 400G budgets are our design exploration.

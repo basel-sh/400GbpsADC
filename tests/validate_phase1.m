@@ -1,5 +1,5 @@
 % Checks that address reproducibility failures found in the paper audit.
-addpath(genpath(fileparts(mfilename('fullpath'))));
+addpath(genpath(fileparts(fileparts(mfilename('fullpath')))));
 for q=[4 16 64 256]
  c=config_400G(struct('mod',struct('order',q)));
  assert(abs(c.achieved_data_rate_bps/400e9-1)<1e-12);

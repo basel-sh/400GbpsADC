@@ -30,6 +30,10 @@ The 224 target therefore cannot be honestly claimed from the available inputs. T
 
 ## Reproduction scripts and data
 
+The script names below record the historical investigation. These launchers
+were retired on 24 October 2026; the saved outputs remain in
+`results/target_reproduction/`. For current executable entry points, use the README.
+
 - `run_diagonal_channel_check.m` - full-length, three-seed paper-equation check.
 - `run_adc_input_full.m` - full-length, three-seed favorable noise-reference check.
 - `run_adc_clipping_grid.m` and `run_adc_input_best_clip_full.m` - clipping search and long confirmation.
