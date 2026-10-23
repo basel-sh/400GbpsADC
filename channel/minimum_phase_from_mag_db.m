@@ -5,7 +5,7 @@ function h = minimum_phase_from_mag_db(mag_dB, N, num_taps)
 %
 % This is a standard DSP technique (not paper-specific) used here because
 % neither reference paper publishes the channel's phase response -- only
-% loss magnitudes/plots are given (see specs/224G_paper_specs.md Sec. 6 and
+% loss magnitudes/plots are given (see config/224G_paper_specs.md Sec. 6 and
 % docs/assumptions.md). A minimum-phase model is the standard, physically
 % reasonable choice for a passive, causal, lossy interconnect when only
 % magnitude data is available.

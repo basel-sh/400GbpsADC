@@ -1,4 +1,0 @@
-name,qam,rate_Gbps,fs_GSs,loss40_dB,noise_mV,jitter_UI,ber,ser,naive_ser,bit_errors,num_bits,symbol_errors,num_symbols
-400G_conditional_confirmation,64,400,134.637964774951,5,0.3,0.003,0,0,0.62995544450657,0,34339200,0,5723200
-400G_conditional_confirmation,64,400,134.637964774951,5,0.3,0.003,0,0,0.630200412356724,0,34339200,0,5723200
-400G_conditional_confirmation,64,400,134.637964774951,5,0.3,0.003,0,0,0.630059407324574,0,34339200,0,5723200

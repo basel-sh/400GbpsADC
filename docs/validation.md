@@ -15,7 +15,7 @@ We keep three questions separate: the rate the framing carries, the errors count
 
 Seeds 31, 53, and 79 each used 5,600 data OFDM symbols per lane. Across two lanes, the pooled result is **1,276 bit errors in 103,017,600 bits** and **1,276 symbol errors in 17,169,600 QAM symbols**. The BER is about 5.16 times the paper comparison value; the SER is about 5.31 times higher.
 
-Evidence: [confirmation CSV](../results/pulled_friend_exact/paper_clipping_confirmation.csv) and [full 224G notes](friend_channel_reproduction.md).
+Evidence: [confirmation CSV](../results/224G/paper_clipping_confirmation.csv) and [full 224G notes](friend_channel_reproduction.md).
 
 `main_224` uses L200 rather than the confirmed L1000 window. Its recorded baseline BER is 1.23124592e-5 and SER is 7.38747554e-5. Increasing averaging alone did not establish a meaningful improvement across independent seeds.
 
@@ -34,7 +34,7 @@ For these reasons, the current model does not reproduce the complete paper resul
 
 All rows represent three independent long runs at 400 Gb/s gross per lane. The primary confirmation seeds are 431, 457, and 479. The L1000 study uses 641, 673, and 701. The L1000 row has 479 symbol errors; bit and symbol error counts need not be identical.
 
-Evidence: [primary pooled results](../results/400G_verification/pooled.csv), [primary confirmations](../results/400G_verification/confirmation.csv), and [L1000 pooled results](../results/400G_verification/training_pooled.csv).
+Evidence: [primary pooled results](../results/400G/verification/pooled.csv), [primary confirmations](../results/400G/verification/confirmation.csv), and [L1000 pooled results](../results/400G/verification/training_pooled.csv).
 
 The passing 64-QAM candidate uses FFT1024, CP8, 511 tones, 134.638 GS/s, ideal 8-bit DAC/ADC, a synthetic 5 dB-at-40 GHz channel, 0.3 mV noise before VGA, 22.282 fs independent RMS jitter per TX/RX process, and -3.5 to 0 dB loading. Clipping remains 12.6/13.4 dB; full scales remain 1.0/0.5 Vpp.
 

@@ -1,6 +1,6 @@
 % Test whether more CHEST averaging stabilizes 256-QAM at unchanged budgets.
 root=fileparts(fileparts(fileparts(mfilename('fullpath'))));addpath(genpath(root));
-out=fullfile(root,'results','400G_verification');
+out=fullfile(root,'results','400G','verification');
 diary(fullfile(out,'training_console.log'));clean=onCleanup(@()diary('off'));
 s=load(fullfile(out,'screening.mat'));ix=find(strcmp({s.rows.name},'256QAM_candidate_9bit'),1);
 c=s.configs{ix};c.chest.L_moving_avg=1000;rows=struct([]);

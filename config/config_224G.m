@@ -7,7 +7,7 @@ function cfg = config_224G()
 %   [B] = derived mathematically from [A] values
 %   [C] = NOT SPECIFIED IN REFERENCE PAPER -> configurable assumption
 %
-% See specs/224G_paper_specs.md for full source citations (page/section/table)
+% See config/224G_paper_specs.md for full source citations (page/section/table)
 % and docs/assumptions.md for the rationale behind every [C] value.
 %
 % This is the ONLY place 224G numeric parameters should live. Every function

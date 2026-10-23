@@ -11,8 +11,9 @@ demonstrate a 400G circuit or identify the paper's channel.
 ## What was run
 
 MATLAB R2026b, locally installed, was used for every reported communication
-simulation. Python only converts public channel data and builds this report.
-Old result files were preserved; current results live in `results/phase1/`.
+simulation. Python converted public channel data and built this historical report.
+The earlier `results/phase1/` outputs were removed during cleanup on
+24 October 2026. This document retains historical findings, not current raw evidence.
 
 - Ten 224G impairment/interpretation/training cases.
 - Eighty-one rate-correct 400G architecture/channel/converter/power-loading points.
@@ -113,13 +114,7 @@ See `400G_approval_plan.md` for the decision package and acceptance gates, and
 
 ## Historical reproduction notes
 
-The phase-one investigation launchers were retired during project cleanup on
-24 October 2026. Their saved CSVs and configurations remain under
-`results/phase1/`. `analysis/build_phase1_report.py` can rebuild this historical
-report from those saved outputs; it does not rerun the retired experiments.
-Use the README for current 224G/400G commands and `tests/validate_phase1.m`
-for functional checks. Channel conversion is documented in `paper_coverage.md`.
-
-![Long-run and noise evidence](../results/phase1/phase1_evidence.png)
-
-![Clipping grid](../results/phase1/224G_clipping_grid.png)
+The phase-one investigation launchers, their old outputs and the report builder
+were removed during project cleanup on 24 October 2026. Use the README for
+current 224G/400G commands and retained evidence. `tests/validate_phase1.m`
+remains the functional check. Channel conversion is documented in `paper_coverage.md`.

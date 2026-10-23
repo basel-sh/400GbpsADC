@@ -56,9 +56,9 @@ Each lane alone has 51,508,800 tested bits and nominal BER upper95 5.816e-8.
 For the standard 256-QAM candidate, the worst individual confirmation
 lane/seed BER is 6.814e-6, exceeding the pooled BER and the comparison target.
 
-![Upgrade bottlenecks](../results/400G_verification/figures/400G_upgrade_bottlenecks.png)
+![Upgrade bottlenecks](../results/400G/verification/figures/400G_upgrade_bottlenecks.png)
 
-![Independent confirmation](../results/400G_verification/figures/400G_independent_confirmation.png)
+![Independent confirmation](../results/400G/verification/figures/400G_independent_confirmation.png)
 
 ## What has to change for the 64-QAM candidate
 
@@ -198,7 +198,7 @@ plot_400G_verification
 ```
 
 Run scripts sequentially. Results/configs/seeds/counts/logs are under
-`results/400G_verification/`. Screening is 17 budget/channel cases plus three
+`results/400G/verification/`. Screening is 17 budget/channel cases plus three
 jitter sensitivity checks; three primary candidates have nine long runs,
 with three additional CP confirmations and three additional L1000 confirmations.
 `validate_phase1` passes actual-rate arithmetic, QAM/OFDM recovery, stable

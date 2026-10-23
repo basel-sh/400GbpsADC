@@ -31,8 +31,8 @@ The 224 target therefore cannot be honestly claimed from the available inputs. T
 ## Reproduction scripts and data
 
 The script names below record the historical investigation. These launchers
-were retired on 24 October 2026; the saved outputs remain in
-`results/target_reproduction/`. For current executable entry points, use the README.
+and their `results/target_reproduction/` outputs were removed during cleanup
+on 24 October 2026. For current executable entry points and evidence, use the README.
 
 - `run_diagonal_channel_check.m` - full-length, three-seed paper-equation check.
 - `run_adc_input_full.m` - full-length, three-seed favorable noise-reference check.
@@ -42,7 +42,7 @@ were retired on 24 October 2026; the saved outputs remain in
 - `run_noise_threshold_full.m` and `run_noise_floor_full.m` - multi-seed noise budget sweeps.
 - `run_zero_noise_extended.m` - eight-seed zero-noise floor estimate.
 - `run_zero_noise_l2000.m` - matched-seed CHEST averaging check.
-- Machine-readable outputs and MATLAB structs are in `results/target_reproduction/`.
+- The old machine-readable outputs and MATLAB structs are no longer retained locally.
 
 `cfg.channel.ofdm_diagonal=true` is an optional comparison path that implements the paper's independent-subcarrier equations. It assumes that the CP fully removes inter-block interference; it is not evidence that a physical channel with a longer impulse response is protected by an 8-sample CP. The default physical-convolution path remains unchanged.
 

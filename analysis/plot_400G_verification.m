@@ -1,6 +1,6 @@
 function plot_400G_verification
 root=fileparts(fileparts(mfilename('fullpath')));
-out=fullfile(root,'results','400G_verification');figdir=fullfile(out,'figures');
+out=fullfile(root,'results','400G','verification');figdir=fullfile(out,'figures');
 if ~exist(figdir,'dir'),mkdir(figdir);end
 t=readtable(fullfile(out,'screening.csv'),'TextType','string');
 names=["64QAM_paper_scalar_budgets","64QAM_only_9bit", ...

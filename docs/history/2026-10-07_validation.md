@@ -68,7 +68,7 @@ explained, not hidden:
    have been a much larger simulation run in the original paper (not stated).
 
 We consider items (1)-(2) the fundamental, unavoidable consequence of not having the paper's exact channel
-data (explicitly acknowledged as unavailable in `specs/224G_paper_specs.md` Section 6) -- not a bug in the
+data (explicitly acknowledged as unavailable in `config/224G_paper_specs.md` Section 6) -- not a bug in the
 implementation.
 
 ## Per-block correctness checks performed during development

@@ -1,6 +1,6 @@
 %MAIN_224  Single entry point: runs the complete 224 Gb/s MIMO-OFDM
 %baseline validation suite (TESTs 1-6), saves all figures under
-%results/pulled_friend_exact/figures/, and prints a summary comparing measured results to
+%results/224G/figures/, and prints a summary comparing measured results to
 %the paper's reported values.
 %
 % Usage (from the project root, i.e. this file's folder):
@@ -24,8 +24,8 @@ cfg.channel.touchstone = struct( ...
     'thru_file', fullfile(chan_dir, [prefix '_Thru.s4p']), ...
     'fext_file', fullfile(chan_dir, [prefix '_FEXT1.s4p']));
 
-% Keep this pulled-code reproduction separate from historical synthetic runs.
-cfg.results_dir = fullfile(proj_root, 'results', 'pulled_friend_exact');
+% Current 224G baseline outputs; older synthetic runs are under results/history/.
+cfg.results_dir = fullfile(proj_root, 'results', '224G');
 cfg.fig_dir = fullfile(cfg.results_dir, 'figures');
 
 if ~exist(cfg.results_dir, 'dir'), mkdir(cfg.results_dir); end

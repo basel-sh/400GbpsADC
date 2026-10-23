@@ -4,7 +4,7 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 root=Path(__file__).resolve().parents[1]
-im=np.asarray(Image.open(root/'tmp/papers/fig8_source.jpeg').convert('RGB')).astype(float)
+im=np.asarray(Image.open(root/'channel/data/fig8/fig8_source.jpeg').convert('RGB')).astype(float)
 x0,x1,y0,y1=177,1510,76,681
 xs=np.arange(x0+8,x1-3);f=(xs-x0)/(x1-x0)*40
 main_pred=np.interp(f,[0,2,5,10,15,20,25,30,35,40],[0,-2.5,-4.5,-7.7,-10,-13,-15,-17.5,-20.5,-22.7])

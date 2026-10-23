@@ -2,7 +2,7 @@
 %(Part 7-8 of the project brief). Runs experiments/experiment_400G_sweep.m
 %across all requested axes (data rate, sampling rate, ADC/DAC resolution,
 %modulation order, FFT size, channel loss, RX noise, jitter, FEXT strength)
-%and saves all figures under results/400G/figures/.
+%and saves all figures under results/400G/sweeps/figures/.
 %
 % Usage:
 %   >> run(fullfile('scripts','400G','run_400G_sweep.m'))
@@ -18,7 +18,7 @@ addpath(genpath(proj_root));
 fprintf('=== 400 Gb/s/lane scaling investigation (parameter sweep) ===\n\n');
 
 base_cfg = config_400G();
-base_cfg.results_dir = fullfile(proj_root, 'results', '400G');
+base_cfg.results_dir = fullfile(proj_root, 'results', '400G', 'sweeps');
 base_cfg.fig_dir = fullfile(base_cfg.results_dir, 'figures');
 if ~exist(base_cfg.results_dir, 'dir'), mkdir(base_cfg.results_dir); end
 if ~exist(base_cfg.fig_dir, 'dir'), mkdir(base_cfg.fig_dir); end

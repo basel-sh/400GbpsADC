@@ -8,7 +8,7 @@ function [h, info] = main_channel(cfg)
 % calibrated so that:
 %   loss_dB(cfg.channel.main_loss_at_freq) == cfg.channel.main_loss_dB_at_f
 % i.e. 23 dB @ 40 GHz, matching the paper's headline anchor point ([FEXT]
-% Abstract). See specs/224G_paper_specs.md Sec. 6 and docs/assumptions.md.
+% Abstract). See config/224G_paper_specs.md Sec. 6 and docs/assumptions.md.
 %
 % Phase: a minimum-phase realization is used (see
 % channel/minimum_phase_from_mag_db.m) since no phase/group-delay data is

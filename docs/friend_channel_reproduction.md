@@ -1,5 +1,9 @@
 # Current 224G readings and what we learned from the friend code
 
+Folder update, 24 October 2026: the active outputs previously called
+`results/pulled_friend_exact/` now live in `results/224G/`. The older synthetic
+224G outputs were preserved in `results/history/224G_synthetic/`.
+
 Run date: 7 October 2026, MATLAB R2026b, base MATLAB.
 Documentation reviewed 10 October 2026. The current fixed-clipping readings below remain the latest independent 224G confirmation; see [validation](validation.md) for the project-wide comparison.
 
@@ -24,7 +28,7 @@ to establish a meaningful improvement across independent runs. The earlier
 28% improvement depended on changing ADC clipping and no longer applies.
 
 Current output files use the `paper_clipping_` prefix under
-`results/pulled_friend_exact/`, preserving the earlier exploratory runs.
+`results/224G/`, preserving the earlier exploratory runs.
 The earlier 12.5 dB candidate below is historical and is no longer the current
 configuration. Fixing clipping does not resolve the channel/noise mismatch
 with the paper discussed below.
@@ -84,8 +88,9 @@ The baseline counts 151 erroneous symbols out of 2,044,000 and 151 erroneous
 bits out of 12,264,000 across two lanes. Repeating the same configuration
 returned identical baseline readings.
 
-The full suite generated its figures and `results_224G.mat` under
-`results/pulled_friend_exact/`, preserving the historical `results/224G/` files.
+The full suite's figures and `results_224G.mat` are now under
+`results/224G/`; the historical synthetic files are under
+`results/history/224G_synthetic/`.
 Completion of the suite is not proof that all paper validation criteria pass.
 
 ## Historical clipping exploration and independent confirmation
@@ -112,7 +117,7 @@ initial acquisition example; longer moving averaging could instead continue
 after acquisition in a streaming implementation.
 
 Evidence: `optimization.csv`, `confirmation.csv`, `optimization.mat`,
-and `optimization.log` under `results/pulled_friend_exact/`.
+and `optimization.log` under `results/224G/`.
 
 ## Why this is not yet the paper's result
 

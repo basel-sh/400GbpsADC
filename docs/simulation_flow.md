@@ -2,9 +2,10 @@
 
 For current commands and result folders, start with [the README](../README.md).
 `main_224` now uses the imported friend channel and saves the suite under
-`results/pulled_friend_exact/`. The current 400G confirmation sequence is
+`results/224G/`. The current 400G confirmation sequence is
 `run_400G_verification`, followed by the CP and training verification scripts.
-Those results are stored under `results/400G_verification/`.
+Those results are stored under `results/400G/verification/`.
+Exploratory sweep results and figures are under `results/400G/sweeps/`.
 The older exploratory sweep remains available, but is not the current
 independent 400G confirmation. See [validation](validation.md) for the distinction.
 

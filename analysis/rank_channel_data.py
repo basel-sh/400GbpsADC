@@ -21,4 +21,4 @@ if __name__=='__main__':
    err=np.sqrt(np.mean((np.interp(tf,f,db)-np.interp(tf,target[:,0],target[:,3]))**2))
    np.savetxt(dest/(p.stem+'.csv'),np.column_stack([f,h.real,h.imag,db]),delimiter=',',header='frequency_Hz,real,imag,magnitude_dB',comments='')
    rows.append({'file':str(p.relative_to(root)),'kind':kind,'curve_RMSE_dB':float(err), 'max_GHz':float(f[-1]/1e9), 'loss3p7_dB':float(-np.interp(3.7e9,f,db)), 'loss40_dB':float(-np.interp(40e9,f,db))})
- rows.sort(key=lambda r:(r['kind'],r['curve_RMSE_dB']));(root/'results/target_reproduction/channel_ranking.json').write_text(json.dumps(rows,indent=2));print(json.dumps(rows[:12],indent=2))
+ rows.sort(key=lambda r:(r['kind'],r['curve_RMSE_dB']));(root/'channel/data/channel_ranking.json').write_text(json.dumps(rows,indent=2));print(json.dumps(rows[:12],indent=2))

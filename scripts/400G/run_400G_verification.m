@@ -1,7 +1,7 @@
 % Phase-one 400 Gb/s/lane verification. Clipping remains paper 12.6/13.4 dB.
 % Changed channel/noise/converter/clock budgets are explicit requirements.
 root=fileparts(fileparts(fileparts(mfilename('fullpath')))); addpath(genpath(root));
-out=fullfile(root,'results','400G_verification');if ~exist(out,'dir'),mkdir(out);end
+out=fullfile(root,'results','400G','verification');if ~exist(out,'dir'),mkdir(out);end
 diary(fullfile(out,'console.log')); cleanup=onCleanup(@()diary('off'));
 validate_phase1;
 ber_target=2.4e-6;ser_target=1.4e-5;

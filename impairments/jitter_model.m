@@ -6,7 +6,7 @@ function x_jittered = jitter_model(x, fs, rms_UI, seed_offset, method)
 % correlated phase noise) is NOT specified beyond an RMS figure, this is
 % modeled as i.i.d. Gaussian per-sample timing error with the given RMS,
 % expressed in unit intervals (UI = 1/fs) -- flagged as an assumption [C]
-% in specs/224G_paper_specs.md Section 10.
+% in config/224G_paper_specs.md Section 10.
 %
 % Implementation: the continuous-time waveform is reconstructed via cubic
 % spline interpolation of the ideal (jitter-free) samples, then re-sampled

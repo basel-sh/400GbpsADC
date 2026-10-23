@@ -37,7 +37,7 @@ that materially affect reproducibility, are listed here explicitly rather than s
 1. The abstract states "23 dB of loss at Nyquist" for long-reach channels in general discussion, but also
    separately "23 dB loss at 40 GHz" for the specific simulated channel -- and the baseline's actual Nyquist
    frequency (37.625 GHz, from N_FFT/CP/Fs) is slightly below 40 GHz. We treat "23 dB @ 40 GHz" as the
-   literal calibration anchor (Section 6 of `specs/224G_paper_specs.md`) since it is the number given
+   literal calibration anchor (Section 6 of `config/224G_paper_specs.md`) since it is the number given
    alongside the specific 224 Gb/s/23dB/1.4e-5 SER headline result.
 2. A separate sentence near the end of Section V ("...communicating at 224 Gb/s of data rate through
    channels with >32 dB loss at 56 GHz") appears in the extracted PDF text in a position that suggests it

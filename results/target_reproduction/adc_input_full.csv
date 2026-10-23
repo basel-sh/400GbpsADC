@@ -1,4 +1,0 @@
-seed,ber,ser,bit_errors,num_bits,symbol_errors,num_symbols,noise_location
-521,0.000103525999440872,0.000620631814369583,3555,34339200,3552,5723200,"ADC input after VGA, paper diagonal channel"
-547,0.000104312272854347,0.000624825272574783,3582,34339200,3576,5723200,"ADC input after VGA, paper diagonal channel"
-571,0.000104370515329419,0.000625873637126083,3584,34339200,3582,5723200,"ADC input after VGA, paper diagonal channel"

@@ -94,9 +94,10 @@ scripts/400G/                400G verification, CP/training studies and sweep
 tests/                       functional validation checks
 ```
 
-The 19 older noise/clipping/channel-search launchers were retired during
-cleanup on 24 October 2026. Their existing results and historical notes remain
-as evidence; those launchers are no longer part of the working source tree.
+The 19 older noise/clipping/channel-search launchers and their `results/phase1/`
+and `results/target_reproduction/` outputs were removed during cleanup on
+24 October 2026. Historical notes remain for context; use the current
+224G/400G result folders for retained evidence.
 
 Use the project root as MATLAB's current folder. The communication model uses base MATLAB, with custom QAM modulation and demodulation. The current saved verification runs used MATLAB R2026b.
 
@@ -136,11 +137,14 @@ The first 400G script creates inputs needed by the CP and training studies. Thes
 
 | Location | What you will find |
 |---|---|
-| `results/pulled_friend_exact/paper_clipping_confirmation.csv` | Current independent 224G readings with clipping fixed |
-| `results/400G_verification/pooled.csv` | Three primary 400G candidates, pooled counts and nominal bounds |
-| `results/400G_verification/confirmation.csv` | Per-seed and per-lane measurements |
-| `results/400G_verification/training_pooled.csv` | The independent 256-QAM L1000 result |
-| `results/400G_verification/figures/` | Upgrade-bottleneck and confirmation charts |
+| `results/224G/figures/` | Current 224G baseline figures |
+| `results/224G/paper_clipping_confirmation.csv` | Current independent 224G readings with clipping fixed |
+| `results/history/224G_synthetic/` | Preserved older synthetic-channel outputs |
+| `results/400G/sweeps/` | Exploratory parameter-sweep results and figures |
+| `results/400G/verification/pooled.csv` | Three primary 400G candidates, pooled counts and nominal bounds |
+| `results/400G/verification/confirmation.csv` | Per-seed and per-lane measurements |
+| `results/400G/verification/training_pooled.csv` | The independent 256-QAM L1000 result |
+| `results/400G/verification/figures/` | Upgrade-bottleneck and confirmation charts |
 | `presentations/Cairo_University_400G_Proposal.pptx` | Editable proposal slides with speaker notes |
 
 Large generated `results_224G.mat` snapshots stay local and are excluded from Git. Their exclusion does not delete your results. Share the small CSV summaries, figures, configurations, and scripts when reviewing the work.
@@ -162,7 +166,7 @@ A smaller CMOS process cannot be selected from MATLAB BER alone. We need an avai
 | [400G feasibility report](docs/400G_verification_for_doctor.md) | What budgets and limitations should we discuss? |
 | [Project plan](docs/400G_approval_plan.md) | How do we take the whole project toward implementation? |
 | [Open questions](docs/open_questions.md) | What information do we still need? |
-| [Paper specifications](specs/224G_paper_specs.md) | Which settings are stated, derived, or assumed? |
+| [Paper specifications](config/224G_paper_specs.md) | Which settings are stated, derived, or assumed? |
 | [Mathematical model](docs/mathematical_model.md) | How are the processing blocks represented? |
 | [Simulation flow](docs/simulation_flow.md) | How do the scripts and model blocks connect? |
 

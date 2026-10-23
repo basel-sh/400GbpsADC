@@ -4,7 +4,7 @@ This document explains, block by block, the math implemented in the MATLAB proje
 equation to the MATLAB function that implements it. All equation numbers referencing "[FEXT]" are from
 G. Kim, *Far-End Crosstalk Cancellation With MIMO OFDM for >200 Gb/s ADC-Based Serial Links*, IEEE TCAS-II,
 2023; "[DSE]" refers to the companion paper, *Design Space Exploration of Single-Lane OFDM-Based Serial
-Links...*, IEEE OJ-CAS, 2022. See `specs/224G_paper_specs.md` for the exact page/section citation of every
+Links...*, IEEE OJ-CAS, 2022. See `config/224G_paper_specs.md` for the exact page/section citation of every
 parameter value used below.
 
 ## 1. QAM modulation (`tx/qam_modulate.m`, `rx/qam_demodulate.m`)
@@ -86,7 +86,7 @@ its own target ("VGA amplifies the input signal so the ADC uses its input full-s
 ## 6. Channel model: main (THRU) and FEXT (`channel/main_channel.m`, `channel/fext_channel.m`,
 `channel/minimum_phase_from_mag_db.m`)
 
-**NOT SPECIFIED IN REFERENCE PAPER** (see `specs/224G_paper_specs.md` Sec. 6 and `docs/assumptions.md`):
+**NOT SPECIFIED IN REFERENCE PAPER** (see `config/224G_paper_specs.md` Sec. 6 and `docs/assumptions.md`):
 the exact measured S-parameters behind [FEXT] Fig. 8 are not published as numbers. A parameterized
 skin-effect + dielectric-loss magnitude model is used:
 
@@ -134,7 +134,7 @@ H14 = (Y2^(2) + Y2^(1)) / (2*Sk)      H24 = (Y2^(2) - Y2^(1)) / (2*Sk)
 Because of random noise, the raw per-cycle estimate is repeated for L cycles (paper recommends L > 100,
 [FEXT] Fig. 9) and averaged: `H_avg = mean(H_raw, over L cycles)`. The pilot sequence Sk itself (a fixed,
 known +/-1 sequence, not the paper's exact un-published sequence) is a documented assumption (Section 10 of
-`specs/224G_paper_specs.md`).
+`config/224G_paper_specs.md`).
 
 ## 8. 2x2 MIMO frequency-domain equalization (`mimo/fext_cancellation.m`, `mimo/mimo_fde.m`)
 

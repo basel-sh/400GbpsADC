@@ -60,7 +60,7 @@ cfg.occupied_bw = cfg.fs/2;
 cfg.achieved_data_rate_bps = cfg.ofdm.N_used * cfg.mod.bits_per_sym * cfg.fs / ...
     (cfg.ofdm.N_FFT + cfg.ofdm.N_CP);
 
-cfg.results_dir = fullfile('results', '400G');
+cfg.results_dir = fullfile('results', '400G', 'sweeps');
 cfg.fig_dir     = fullfile(cfg.results_dir, 'figures');
 
 end
