@@ -66,15 +66,8 @@ plot_results(snr_range, {ser_cancel, ser_naive}, ...
     'Fig. 7: SER vs. SNR, 224 Gb/s baseline', ...
     fullfile(fig_dir, 'fig07_ser_vs_snr.png'));
 
-% Figure 8: comparison of MIMO with/without FEXT cancellation (bar, at the
-% paper's nominal operating point, i.e. cfg's own noise/impairment levels)
-fig = figure('Visible','off','Color','w','Position',[100 100 480 400]);
-bar([r6.ser_other_mode, r6.ser]);
-set(gca,'YScale','log', 'XTick', 1:2, 'XTickLabel', {'Without cancellation','With cancellation'});
-grid on; box on;
-ylabel('Symbol Error Rate');
-title('Fig. 8: full-baseline SER, with vs. without FEXT cancellation');
-save_figure(fig, fullfile(fig_dir, 'fig08_mimo_comparison.png'));
+% Figure 8: actual baseline values, with both zero-based bars visible.
+plot_baseline_ser(r6, fig_dir);
 
 % Figure 9: full 224G baseline summary (text/metric panel)
 fig = figure('Visible','off','Color','w','Position',[100 100 640 420]);

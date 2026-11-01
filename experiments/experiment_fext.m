@@ -54,21 +54,9 @@ for i = 1:numel(sub_idx)
         fullfile(fig_dir, sprintf('test4_constellation_k%d_%s.png', k, labels{i})));
 end
 
-% Per-sub-channel SER, with vs. without cancellation (Fig. 10(d) style)
-plot_results(1:Nused, {r3.ser_per_subchannel, r4.ser_per_subchannel}, ...
-    {'Without FEXT cancellation', 'With FEXT cancellation'}, ...
-    'Sub-channel index k', 'Symbol Error Rate', ...
-    'TEST 3 vs 4: per-sub-channel SER with/without FEXT cancellation', ...
-    fullfile(fig_dir, 'test3_4_ser_per_subchannel.png'));
-
-% Overall SER bar comparison
-fig = figure('Visible','off','Color','w','Position',[100 100 480 400]);
-bar([r2.ser, r3.ser, r4.ser]);
-set(gca,'YScale','log', 'XTick', 1:3, 'XTickLabel', ...
-    {'No FEXT (T2)','MIMO no cancel (T3)','MIMO w/ cancel (T4)'});
-grid on; box on;
-ylabel('Symbol Error Rate'); title('TEST 2-4: overall SER comparison');
-save_figure(fig, fullfile(fig_dir, 'test2_4_ser_comparison.png'));
+% Show zero observed SER explicitly and use EVM to reveal residual distortion
+% below the symbol-decision threshold. Never put zero bars on a log axis.
+plot_fext_diagnostics(r2, r3, r4, cfg, fig_dir);
 
 results = struct('test2', r2, 'test3', r3, 'test4', r4);
 

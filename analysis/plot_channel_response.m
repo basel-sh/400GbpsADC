@@ -29,7 +29,11 @@ text(cfg.channel.main_loss_at_freq/1e9, yl(2), ...
 
 xlabel('Frequency (GHz)');
 ylabel('Magnitude response (dB)');
-title('Synthetic main and FEXT channel frequency response (parameterized model)');
+if isfield(cfg.channel, 'type') && strcmp(cfg.channel.type, 'touchstone')
+    title('Imported THRU and FEXT channel frequency response');
+else
+    title('Synthetic main and FEXT channel frequency response (parameterized model)');
+end
 legend('Location', 'best');
 xlim([0, cfg.fs/2/1e9]);
 
